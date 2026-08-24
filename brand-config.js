@@ -1,5 +1,6 @@
 // 저장소별 관리자 화면에 표시할 브랜드명입니다.
 window.BRAND_SITE = Object.freeze({
   name: "설백",
-  adminUrl: "",
+  adminUrl: "https://seolbaek-admin.progen-web.workers.dev/admin",
+  siteUrl: "https://seolbaek-tensorflow.progen-web.workers.dev",
 });
