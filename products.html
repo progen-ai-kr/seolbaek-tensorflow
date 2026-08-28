@@ -3,80 +3,58 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>제품 — 브랜드 이름</title>
-  <meta name="description" content="브랜드의 제품(컬렉션)을 소개합니다." />
+  <title>SEASON 01 / 2026 — 설백 雪白</title>
+  <meta name="description" content="중촌동의 시간을 다섯 가지 색으로 엮은 설백의 2026 시즌 컬렉션." />
   <link rel="icon" href="images/favicon.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-
+<body class="products-page">
   <header class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="logo">BRAND</a>
-      <button class="nav-toggle" aria-label="메뉴 열기">☰</button>
-      <nav class="nav-menu">
-        <a href="index.html">홈</a>
-        <a href="about.html">브랜드 소개</a>
-        <a href="products.html" class="active">제품</a>
-        <a href="portfolio.html">포트폴리오</a>
-        <a href="contact.html">문의</a>
+      <a href="index.html" class="logo" aria-label="설백 홈">설백 <span>雪白</span></a>
+      <button class="nav-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
+      <nav class="nav-menu" aria-label="주요 메뉴">
+        <a href="index.html">홈</a><a href="about.html">브랜드</a><a href="products.html" class="active">컬렉션</a><a href="portfolio.html">저널</a><a href="contact.html">문의</a>
       </nav>
     </div>
   </header>
 
-  <!-- [작성서 05: 취급 품목] -->
-  <section class="page-head">
-    <h1>제품</h1>
-    <p>취급 품목을 여기에 적으세요. (예: Dress / Jacket / Shirt / Skirt)</p>
-  </section>
+  <main>
+    <section class="collection-head">
+      <div><p class="eyebrow">SEOLBAEK COLLECTION</p><h1>SEASON 01<br /><span>/ 2026</span></h1></div>
+      <div><p class="collection-kicker">중촌동의 시간을 직조한다</p><p>다섯 가지 시즌 컬러로 엮는 조용한 시리즈. 오후 2시의 투명한 빛에서 5시의 긴 그림자까지 따라가 보세요.</p></div>
+    </section>
 
-  <!-- ===== 제품 목록 =====
-       ★ 제품은 여기 HTML이 아니라 products.json 파일에서 관리합니다.
-       products.json에 제품을 추가하면 이 목록과 상세 페이지에 자동으로 나타납니다. -->
-  <section class="section">
-    <div class="grid" id="product-list">
-      <!-- products.json 내용이 자동으로 채워집니다 -->
-    </div>
-  </section>
+    <section class="section collection-catalog">
+      <div class="collection-rule"><span>THE SOFT BITE</span><span>14:00 — 17:00</span></div>
+      <!-- 제품 데이터는 products.json에서만 자동으로 불러옵니다. -->
+      <div class="season-grid catalog-grid" id="product-list" aria-live="polite"></div>
+      <p class="catalog-note">사이즈·가격·소재 혼용률·재고·대여 조건은 브랜드 담당자가 입력한 경우에만 제품 상세에서 표시됩니다.</p>
+    </section>
+  </main>
 
   <footer class="footer">
-    <p class="logo">BRAND</p>
-    <p class="biz">
-      상호: ○○○ · 대표자: ○○○<br />
-      사업자등록번호: 000-00-00000 · 주소: ○○○
-    </p>
-    <p>© 브랜드 이름. All rights reserved.</p>
+    <p class="logo">설백 <span>雪白</span></p><p class="footer-line">SEOLBAEK · SEASON 01 / 2026</p><p class="biz">사업자 정보는 브랜드 담당자 확인 후 표기됩니다.</p><p>© 2026 SEOLBAEK. All rights reserved.</p>
   </footer>
 
   <script src="script.js"></script>
   <script src="catalog.js?v=20260826-rich-editor-1"></script>
   <script>
-    // 공개된 products.json 제품을 카드로 그립니다. 학생은 CSS로 자유롭게 디자인할 수 있습니다.
-    ProductCatalog.loadVisibleProducts()
-      .then((products) => {
-        const box = document.getElementById("product-list");
-        box.innerHTML = products
-          .map((p) => {
-            const image = ProductCatalog.safeImageUrl(p.images && p.images[0]);
-            const img = image
-              ? '<img src="' + ProductCatalog.escapeHtml(image) + '" alt="' + ProductCatalog.escapeHtml(p.name) + '" onerror="this.remove()" />'
-              : "";
-            const price = p.price ? '<p class="price">' + ProductCatalog.escapeHtml(p.price) + "</p>" : "";
-            return (
-              '<a class="card" href="product.html?id=' + encodeURIComponent(p.id) + '">' +
-              '<div class="card-img">' + img + "</div>" +
-              '<p class="k">' + ProductCatalog.escapeHtml(p.label || p.category || "") + "</p>" +
-              "<h3>" + ProductCatalog.escapeHtml(p.name) + "</h3>" +
-              "<p>" + ProductCatalog.escapeHtml(p.summary || "") + "</p>" + price +
-              "</a>"
-            );
-          })
-          .join("");
-      })
-      .catch(() => {
-        document.getElementById("product-list").innerHTML =
-          "<p>제품을 불러오지 못했습니다. 로컬에서는 npx serve 로 미리보기 하세요.</p>";
-      });
+    ProductCatalog.loadVisibleProducts().then((products) => {
+      const times = ["14:00", "14:00", "15:00", "17:00"];
+      const box = document.getElementById("product-list");
+      box.innerHTML = products.map((product, index) => {
+        const image = ProductCatalog.safeImageUrl(product.images && product.images[0]);
+        const imageMarkup = image ? '<img src="' + ProductCatalog.escapeHtml(image) + '" alt="' + ProductCatalog.escapeHtml(product.name) + '" loading="lazy" onerror="this.remove()" />' : '<span class="image-placeholder">IMAGE<br />관리자 입력 대기</span>';
+        const time = times[index] || "SEASON 01";
+        return '<a class="season-card time-' + ((index % 4) + 1) + ' reveal-on-scroll" href="product.html?id=' + encodeURIComponent(product.id) + '">' +
+          '<div class="season-card-image">' + imageMarkup + '<span class="look-number">LOOK ' + String(index + 1).padStart(2, "0") + '</span></div>' +
+          '<div class="season-card-meta"><span>' + time + '</span><span>' + ProductCatalog.escapeHtml(product.label || product.category || "SEASON LOOK") + '</span></div>' +
+          '<h2>' + ProductCatalog.escapeHtml(product.name) + '</h2><p>' + ProductCatalog.escapeHtml(product.summary || "영감과 디테일은 관리자 입력 후 공개됩니다.") + '</p></a>';
+      }).join("");
+      if (!products.length) box.innerHTML = '<p class="catalog-empty">시즌 룩을 준비하고 있습니다.</p>';
+      window.SeolbaekReveal && window.SeolbaekReveal();
+    }).catch(() => { document.getElementById("product-list").innerHTML = '<p class="catalog-empty">제품을 불러오지 못했습니다. 로컬 서버에서 다시 확인해 주세요.</p>'; });
   </script>
 </body>
 </html>

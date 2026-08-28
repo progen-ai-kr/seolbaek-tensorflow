@@ -3,81 +3,76 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>브랜드 소개 — 브랜드 이름</title>
-  <meta name="description" content="브랜드 스토리와 철학을 소개합니다." />
+  <title>브랜드 — 설백 雪白</title>
+  <meta name="description" content="보존이 아닌 호흡. 설백이 오늘의 한복을 만드는 이야기." />
   <link rel="icon" href="images/favicon.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-
+<body class="about-page">
   <header class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="logo">BRAND</a>
-      <button class="nav-toggle" aria-label="메뉴 열기">☰</button>
-      <nav class="nav-menu">
-        <a href="index.html">홈</a>
-        <a href="about.html" class="active">브랜드 소개</a>
-        <a href="products.html">제품</a>
-        <a href="portfolio.html">포트폴리오</a>
-        <a href="contact.html">문의</a>
+      <a href="index.html" class="logo" aria-label="설백 홈">설백 <span>雪白</span></a>
+      <button class="nav-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
+      <nav class="nav-menu" aria-label="주요 메뉴">
+        <a href="index.html">홈</a><a href="about.html" class="active">브랜드</a><a href="products.html">컬렉션</a><a href="portfolio.html">저널</a><a href="contact.html">문의</a>
       </nav>
     </div>
   </header>
 
-  <!-- [작성서 02: 한 줄 소개] -->
-  <section class="page-head">
-    <h1>브랜드 소개</h1>
-    <p>브랜드 한 줄 소개를 여기에 적으세요.</p>
-  </section>
+  <main>
+    <section class="about-opening">
+      <p class="eyebrow reveal-on-scroll">SEOLBAEK / 雪白</p>
+      <h1 class="reveal-on-scroll">한복은<br />멈춰 있는 옷이<br />아닙니다.</h1>
+      <p class="about-opening-note reveal-on-scroll">보존되는 유물에서<br />살아 숨 쉬는 오늘의 옷으로.</p>
+    </section>
 
-  <!-- [작성서 02: 브랜드 스토리] 문단째 붙여넣으면 됩니다 -->
-  <section class="section">
-    <p class="eyebrow">OUR STORY</p>
-    <h2>브랜드 스토리</h2>
-    <p class="lead">
-      브랜드 스토리를 여기에 붙여넣으세요. 문단이 여러 개면
-      &lt;p&gt; 태그를 복사해서 나눠 넣으면 됩니다.
-    </p>
-    <p class="lead" style="margin-top:14px;">
-      두 번째 문단 예시입니다.
-    </p>
-  </section>
+    <section class="story-steps section-wide">
+      <article class="story-step reveal-on-scroll">
+        <p class="story-index">01 / BREATHE</p>
+        <h2>옷장에서<br />자연스럽게 꺼내는 한복.</h2>
+        <p>특별한 날을 기다리지 않습니다. 셔츠와 데님 위에 겹쳐 입고, 익숙한 하루 속에서 새로운 몸짓을 만듭니다.</p>
+      </article>
+      <article class="story-step story-step-right reveal-on-scroll">
+        <p class="story-index">02 / LAYER</p>
+        <h2>전통과 현대가<br />한 겹씩 포개지는 순간.</h2>
+        <p>과거를 그대로 재현하기보다 지금의 감각과 만나 변화하도록 둡니다. 설백에게 전통은 계속 움직이는 재료입니다.</p>
+      </article>
+    </section>
 
-  <!-- [작성서 02: 브랜드 키워드] -->
-  <section class="section">
-    <p class="eyebrow">KEYWORDS</p>
-    <h2>브랜드 키워드</h2>
-    <div class="tags">
-      <span>키워드1</span><span>키워드2</span><span>키워드3</span><span>키워드4</span><span>키워드5</span>
-    </div>
-  </section>
+    <section class="name-origin">
+      <div class="section-wide">
+        <p class="eyebrow reveal-on-scroll">THE NAME / 白</p>
+        <h2 class="reveal-on-scroll">두 개의 ‘백’이<br />만나는 자리</h2>
+        <div class="name-grid">
+          <article class="reveal-on-scroll"><span>01</span><h3>백의민족</h3><p>한국의 정체성을 품은 흰옷의 기억.</p></article>
+          <article class="reveal-on-scroll"><span>02</span><h3>흰 캔버스</h3><p>모든 창작과 오늘의 색이 시작되는 여백.</p></article>
+        </div>
+      </div>
+    </section>
 
-  <!-- [작성서 02: 브랜드 철학] -->
-  <section class="section">
-    <p class="eyebrow">PHILOSOPHY</p>
-    <h2>브랜드 철학</h2>
-    <p class="lead">브랜드 철학 문구를 여기에 적으세요.</p>
-  </section>
+    <section id="soft-bite" class="soft-bite-section section-wide">
+      <figure class="soft-bite-visual reveal-on-scroll">
+        <img src="images/seolbaek-soft-bite.png" alt="원단과 쇠의 감각을 잇는 재봉틀" loading="lazy" />
+        <figcaption>JUNGCHON-DONG · 2026</figcaption>
+      </figure>
+      <div class="soft-bite-copy reveal-on-scroll">
+        <p class="eyebrow">SEASON AESTHETIC</p>
+        <h2>부드러운 쇠맛<br /><i>The Soft Bite</i></h2>
+        <p>개발되지 않은 중촌동 골목의 거친 질감. 바늘과 미싱이 가진 쇠의 감각. 그 위로 내려앉는 부드러운 원단.</p>
+        <p>강한 광택 대신 낮은 빛, 가는 선, 실과 재봉의 흔적으로 두 감각의 충돌과 공존을 기록합니다.</p>
+      </div>
+    </section>
 
-  <!-- [작성서 02: 사람·공간 사진] 대표·작업실·작업 과정 컷 -->
-  <section class="section">
-    <p class="eyebrow">PEOPLE & SPACE</p>
-    <h2>만드는 사람들</h2>
-    <div class="grid">
-      <div class="card"><div class="card-img"></div><p>사진 설명</p></div>
-      <div class="card"><div class="card-img"></div><p>사진 설명</p></div>
-    </div>
-  </section>
+    <section class="philosophy-statement">
+      <p class="eyebrow reveal-on-scroll">OUR PHILOSOPHY</p>
+      <blockquote class="reveal-on-scroll">보존이 아닌 호흡<br /><span>옷 안에서 다시 살아나는 한국.</span></blockquote>
+      <a class="btn" href="products.html">SEASON 01 만나기</a>
+    </section>
+  </main>
 
   <footer class="footer">
-    <p class="logo">BRAND</p>
-    <p class="biz">
-      상호: ○○○ · 대표자: ○○○<br />
-      사업자등록번호: 000-00-00000 · 주소: ○○○
-    </p>
-    <p>© 브랜드 이름. All rights reserved.</p>
+    <p class="logo">설백 <span>雪白</span></p><p class="footer-line">SEOLBAEK · SEASON 01 / 2026</p><p class="biz">사업자 정보는 브랜드 담당자 확인 후 표기됩니다.</p><p>© 2026 SEOLBAEK. All rights reserved.</p>
   </footer>
-
   <script src="script.js"></script>
 </body>
 </html>
