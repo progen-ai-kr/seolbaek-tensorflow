@@ -5,29 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>저널 — 설백 雪白</title>
   <meta name="description" content="설백의 작업과 계절의 기록을 소개합니다." />
-  <link rel="icon" href="images/favicon.png" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="rich-content.css?v=20260826-rich-editor-1" />
 </head>
-<body>
+<body class="journal-page" data-page="journal">
 
   <header class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="logo" aria-label="설백 홈">설백 <span>雪白</span></a>
+      <a href="index.html" class="logo" aria-label="설백 홈"><span class="logo-latin">SEOLBAEK · 雪白</span><span class="logo-korean">설백</span></a>
       <button class="nav-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
       <nav class="nav-menu">
-        <a href="index.html">홈</a>
-        <a href="about.html">브랜드</a>
-        <a href="products.html">컬렉션</a>
-        <a href="portfolio.html" class="active">저널</a>
-        <a href="contact.html">문의</a>
+        <a href="index.html" data-i18n="nav.home">홈</a>
+        <a href="products.html" data-i18n="nav.collection">제품</a>
+        <a href="about.html" data-i18n="nav.about">설백 이야기</a>
+        <a href="contact.html" data-i18n="nav.contact">문의</a>
       </nav>
+      <div class="language-switch" role="group" aria-label="언어 선택"><button type="button" data-language="ko" aria-pressed="true">KR</button><span>/</span><button type="button" data-language="en" aria-pressed="false">EN</button></div>
     </div>
   </header>
 
   <section class="page-head">
-    <h1>저널</h1>
-    <p>중촌동의 시간과 설백의 작업을 기록합니다.</p>
+    <p class="eyebrow">SEOLBAEK JOURNAL</p><h1 data-i18n="journal.title">저널</h1>
+    <p data-i18n="journal.subtitle">옷과 원단, 설백의 작업을 기록합니다.</p>
   </section>
 
   <section class="section">
@@ -39,9 +38,9 @@
   </section>
 
   <footer class="footer">
-    <p class="logo">설백 <span>雪白</span></p>
-    <p class="footer-line">SEOLBAEK · SEASON 01 / 2026</p>
-    <p class="biz">사업자 정보는 브랜드 담당자 확인 후 표기됩니다.</p>
+    <p class="footer-wordmark">SEOLBAEK · 雪白 <span>설백</span></p>
+    <p class="footer-line">SEASON 01 / 2026</p>
+    <p class="biz" data-i18n="footer.pending">사업자 정보와 공식 연락처는 브랜드 담당자 확인 후 표기됩니다.</p>
     <p>© 2026 SEOLBAEK. All rights reserved.</p>
   </footer>
 

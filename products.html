@@ -5,56 +5,77 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SEASON 01 / 2026 — 설백 雪白</title>
   <meta name="description" content="중촌동의 시간을 다섯 가지 색으로 엮은 설백의 2026 시즌 컬렉션." />
-  <link rel="icon" href="images/favicon.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="products-page">
+<body class="products-page" data-page="products">
   <header class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="logo" aria-label="설백 홈">설백 <span>雪白</span></a>
+      <a href="index.html" class="logo" aria-label="설백 홈"><span class="logo-latin">SEOLBAEK · 雪白</span><span class="logo-korean">설백</span></a>
       <button class="nav-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
       <nav class="nav-menu" aria-label="주요 메뉴">
-        <a href="index.html">홈</a><a href="about.html">브랜드</a><a href="products.html" class="active">컬렉션</a><a href="portfolio.html">저널</a><a href="contact.html">문의</a>
+        <a href="index.html" data-i18n="nav.home">홈</a><a href="products.html" class="active" data-i18n="nav.collection">제품</a><a href="about.html" data-i18n="nav.about">브랜드 소개</a><a href="contact.html" data-i18n="nav.contact">문의</a>
       </nav>
+      <div class="language-switch" role="group" aria-label="언어 선택"><button type="button" data-language="ko" aria-pressed="true">KR</button><span>/</span><button type="button" data-language="en" aria-pressed="false">EN</button></div>
     </div>
   </header>
 
   <main>
     <section class="collection-head">
       <div><p class="eyebrow">SEOLBAEK COLLECTION</p><h1>SEASON 01<br /><span>/ 2026</span></h1></div>
-      <div><p class="collection-kicker">중촌동의 시간을 직조한다</p><p>다섯 가지 시즌 컬러로 엮는 조용한 시리즈. 오후 2시의 투명한 빛에서 5시의 긴 그림자까지 따라가 보세요.</p></div>
+      <div><p class="collection-kicker" data-i18n="collection.kicker">옷과 원단에 집중하는 첫 번째 시즌</p><p data-i18n="collection.body">투명한 원단에 스미는 빛, 가벼운 주름과 레이어링을 따라 네 개의 LOOK을 만납니다.</p></div>
     </section>
 
     <section class="section collection-catalog">
-      <div class="collection-rule"><span>THE SOFT BITE</span><span>14:00 — 17:00</span></div>
+      <div class="collection-rule"><span>2026 COLLECTION</span><span>SEOLBAEK · 雪白</span></div>
+      <div class="catalog-filters" role="group" aria-label="제품 카테고리">
+        <button type="button" class="active" data-category="all" aria-pressed="true" data-i18n="filter.all">전체</button>
+        <button type="button" data-category="purchase" aria-pressed="false">구매</button>
+        <button type="button" data-category="clothing" aria-pressed="false" data-i18n="category.clothing">의상</button>
+        <button type="button" data-category="accessories" aria-pressed="false" data-i18n="category.accessories">장신구</button>
+        <button type="button" data-category="rental" aria-pressed="false" data-i18n="category.rental">대여</button>
+      </div>
       <!-- 제품 데이터는 products.json에서만 자동으로 불러옵니다. -->
-      <div class="season-grid catalog-grid" id="product-list" aria-live="polite"></div>
-      <p class="catalog-note">사이즈·가격·소재 혼용률·재고·대여 조건은 브랜드 담당자가 입력한 경우에만 제품 상세에서 표시됩니다.</p>
+      <div class="lookbook-grid catalog-grid" id="product-list" aria-live="polite"></div>
+      <p class="catalog-note" data-i18n="collection.note">실제 2026 제품 사진은 제공 후 교체됩니다. 가격·소재 혼용률·재고·대여 조건은 브랜드 담당자가 입력한 경우에만 표시됩니다.</p>
     </section>
   </main>
 
   <footer class="footer">
-    <p class="logo">설백 <span>雪白</span></p><p class="footer-line">SEOLBAEK · SEASON 01 / 2026</p><p class="biz">사업자 정보는 브랜드 담당자 확인 후 표기됩니다.</p><p>© 2026 SEOLBAEK. All rights reserved.</p>
+    <p class="footer-wordmark">SEOLBAEK · 雪白 <span>설백</span></p><p class="footer-line">SEASON 01 / 2026</p><p class="biz" data-i18n="footer.pending">사업자 정보와 공식 연락처는 브랜드 담당자 확인 후 표기됩니다.</p><p>© 2026 SEOLBAEK. All rights reserved.</p>
   </footer>
 
   <script src="script.js"></script>
   <script src="catalog.js?v=20260826-rich-editor-1"></script>
   <script>
-    ProductCatalog.loadVisibleProducts().then((products) => {
-      const times = ["14:00", "14:00", "15:00", "17:00"];
+    let catalogProducts = [];
+    function filterProducts(category) {
+      if (category === "all") return catalogProducts;
+      if (category === "purchase") return catalogProducts.filter((product) => product.category !== "rental");
+      return catalogProducts.filter((product) => {
+        const text = [product.category, product.label, product.name, ...(product.keywords || [])].join(" ").toLowerCase();
+        if (category === "accessories") return /장신구|액세서리|accessor|jewelry/.test(text);
+        if (category === "rental") return /대여|rental|rent/.test(text);
+        return !/장신구|액세서리|accessor|jewelry|대여|rental|rent/.test(text);
+      });
+    }
+    function renderCategory(category) {
       const box = document.getElementById("product-list");
-      box.innerHTML = products.map((product, index) => {
-        const image = ProductCatalog.safeImageUrl(product.images && product.images[0]);
-        const imageMarkup = image ? '<img src="' + ProductCatalog.escapeHtml(image) + '" alt="' + ProductCatalog.escapeHtml(product.name) + '" loading="lazy" onerror="this.remove()" />' : '<span class="image-placeholder">IMAGE<br />관리자 입력 대기</span>';
-        const time = times[index] || "SEASON 01";
-        return '<a class="season-card time-' + ((index % 4) + 1) + ' reveal-on-scroll" href="product.html?id=' + encodeURIComponent(product.id) + '">' +
-          '<div class="season-card-image">' + imageMarkup + '<span class="look-number">LOOK ' + String(index + 1).padStart(2, "0") + '</span></div>' +
-          '<div class="season-card-meta"><span>' + time + '</span><span>' + ProductCatalog.escapeHtml(product.label || product.category || "SEASON LOOK") + '</span></div>' +
-          '<h2>' + ProductCatalog.escapeHtml(product.name) + '</h2><p>' + ProductCatalog.escapeHtml(product.summary || "영감과 디테일은 관리자 입력 후 공개됩니다.") + '</p></a>';
-      }).join("");
-      if (!products.length) box.innerHTML = '<p class="catalog-empty">시즌 룩을 준비하고 있습니다.</p>';
+      const filtered = filterProducts(category);
+      box.innerHTML = filtered.length ? window.SeolbaekUI.renderCatalog(filtered) : window.SeolbaekUI.catalogMessage("pending");
       window.SeolbaekReveal && window.SeolbaekReveal();
-    }).catch(() => { document.getElementById("product-list").innerHTML = '<p class="catalog-empty">제품을 불러오지 못했습니다. 로컬 서버에서 다시 확인해 주세요.</p>'; });
+    }
+    document.querySelectorAll("[data-category]").forEach((button) => button.addEventListener("click", () => {
+      document.querySelectorAll("[data-category]").forEach((item) => { const active = item === button; item.classList.toggle("active", active); item.setAttribute("aria-pressed", String(active)); });
+      history.replaceState(null, "", button.dataset.category === "all" ? "products.html" : "?category=" + button.dataset.category);
+      renderCategory(button.dataset.category);
+    }));
+    ProductCatalog.loadVisibleProducts().then((products) => {
+      catalogProducts = window.SeolbaekProductPresets.apply(products);
+      const requested = new URLSearchParams(location.search).get("category") || "all";
+      const selected = document.querySelector('[data-category="' + requested + '"]') || document.querySelector('[data-category="all"]');
+      selected.click();
+    }).catch(() => { document.getElementById("product-list").innerHTML = window.SeolbaekUI.catalogMessage("loadError"); });
+    window.addEventListener("seolbaek:language", () => renderCategory(document.querySelector("[data-category].active")?.dataset.category || "all"));
   </script>
 </body>
 </html>

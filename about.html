@@ -5,73 +5,75 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>브랜드 — 설백 雪白</title>
   <meta name="description" content="보존이 아닌 호흡. 설백이 오늘의 한복을 만드는 이야기." />
-  <link rel="icon" href="images/favicon.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="about-page">
+<body class="about-page" data-page="about">
   <header class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="logo" aria-label="설백 홈">설백 <span>雪白</span></a>
+      <a href="index.html" class="logo" aria-label="설백 홈"><span class="logo-latin">SEOLBAEK · 雪白</span><span class="logo-korean">설백</span></a>
       <button class="nav-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
       <nav class="nav-menu" aria-label="주요 메뉴">
-        <a href="index.html">홈</a><a href="about.html" class="active">브랜드</a><a href="products.html">컬렉션</a><a href="portfolio.html">저널</a><a href="contact.html">문의</a>
+        <a href="index.html" data-i18n="nav.home">홈</a><a href="products.html" data-i18n="nav.collection">제품</a><a href="about.html" class="active" data-i18n="nav.about">브랜드 소개</a><a href="contact.html" data-i18n="nav.contact">문의</a>
       </nav>
+      <div class="language-switch" role="group" aria-label="언어 선택"><button type="button" data-language="ko" aria-pressed="true">KR</button><span>/</span><button type="button" data-language="en" aria-pressed="false">EN</button></div>
     </div>
   </header>
 
   <main>
     <section class="about-opening">
       <p class="eyebrow reveal-on-scroll">SEOLBAEK / 雪白</p>
-      <h1 class="reveal-on-scroll">한복은<br />멈춰 있는 옷이<br />아닙니다.</h1>
-      <p class="about-opening-note reveal-on-scroll">보존되는 유물에서<br />살아 숨 쉬는 오늘의 옷으로.</p>
+      <h1 class="reveal-on-scroll" data-i18n="about.hero">한복은<br />멈춰 있는 옷이<br />아닙니다.</h1>
+      <p class="about-opening-note reveal-on-scroll" data-i18n="about.heroNote">보존되는 유물에서<br />살아 숨 쉬는 오늘의 옷으로.</p>
     </section>
+
+    <section class="section-wide about-origin-note reveal-on-scroll"><p class="eyebrow">SEOLBAEK'S BEGINNING</p><h2>설백의 시작</h2><p>한복을 보존되는 유물이 아니라 현대의 옷에 자연스럽게 겹쳐 입는 살아 있는 옷으로 제안합니다.</p><p>‘백의민족’과 모든 창작이 시작되는 ‘흰색 캔버스’가 만나 설백의 ‘백’이 탄생했습니다.</p></section>
 
     <section class="story-steps section-wide">
       <article class="story-step reveal-on-scroll">
         <p class="story-index">01 / BREATHE</p>
-        <h2>옷장에서<br />자연스럽게 꺼내는 한복.</h2>
-        <p>특별한 날을 기다리지 않습니다. 셔츠와 데님 위에 겹쳐 입고, 익숙한 하루 속에서 새로운 몸짓을 만듭니다.</p>
+        <h2 data-i18n="about.breatheTitle">옷장에서<br />자연스럽게 꺼내는 한복.</h2>
+        <p data-i18n="about.breatheBody">특별한 날을 기다리지 않습니다. 셔츠와 데님 위에 겹쳐 입고, 익숙한 하루 속에서 새로운 몸짓을 만듭니다.</p>
       </article>
       <article class="story-step story-step-right reveal-on-scroll">
         <p class="story-index">02 / LAYER</p>
-        <h2>전통과 현대가<br />한 겹씩 포개지는 순간.</h2>
-        <p>과거를 그대로 재현하기보다 지금의 감각과 만나 변화하도록 둡니다. 설백에게 전통은 계속 움직이는 재료입니다.</p>
+        <h2 data-i18n="about.layerTitle">전통과 현대가<br />한 겹씩 포개지는 순간.</h2>
+        <p data-i18n="about.layerBody">과거를 그대로 재현하기보다 지금의 감각과 만나 변화하도록 둡니다. 설백에게 전통은 계속 움직이는 재료입니다.</p>
       </article>
     </section>
 
     <section class="name-origin">
       <div class="section-wide">
         <p class="eyebrow reveal-on-scroll">THE NAME / 白</p>
-        <h2 class="reveal-on-scroll">두 개의 ‘백’이<br />만나는 자리</h2>
+        <h2 class="reveal-on-scroll" data-i18n="about.nameTitle">두 개의 ‘백’이<br />만나는 자리</h2>
         <div class="name-grid">
-          <article class="reveal-on-scroll"><span>01</span><h3>백의민족</h3><p>한국의 정체성을 품은 흰옷의 기억.</p></article>
-          <article class="reveal-on-scroll"><span>02</span><h3>흰 캔버스</h3><p>모든 창작과 오늘의 색이 시작되는 여백.</p></article>
+          <article class="reveal-on-scroll"><span>01</span><h3 data-i18n="about.whitePeople">백의민족</h3><p data-i18n="about.whitePeopleBody">한국의 정체성을 품은 흰옷의 기억.</p></article>
+          <article class="reveal-on-scroll"><span>02</span><h3 data-i18n="about.canvas">흰 캔버스</h3><p data-i18n="about.canvasBody">모든 창작과 오늘의 색이 시작되는 여백.</p></article>
         </div>
       </div>
     </section>
 
     <section id="soft-bite" class="soft-bite-section section-wide">
       <figure class="soft-bite-visual reveal-on-scroll">
-        <img src="images/seolbaek-soft-bite.png" alt="원단과 쇠의 감각을 잇는 재봉틀" loading="lazy" />
-        <figcaption>JUNGCHON-DONG · 2026</figcaption>
+        <div class="media-placeholder craft-placeholder" role="img" aria-label="중촌동 작업실과 제작 과정 사진이 들어갈 자리"><span>CRAFT IMAGE / TO BE PROVIDED</span><small data-i18n="placeholder.craft">작업실·장인 사진 교체 위치</small></div>
+        <figcaption>JUNGCHON-DONG · CRAFT PROCESS</figcaption>
       </figure>
       <div class="soft-bite-copy reveal-on-scroll">
         <p class="eyebrow">SEASON AESTHETIC</p>
-        <h2>부드러운 쇠맛<br /><i>The Soft Bite</i></h2>
-        <p>개발되지 않은 중촌동 골목의 거친 질감. 바늘과 미싱이 가진 쇠의 감각. 그 위로 내려앉는 부드러운 원단.</p>
-        <p>강한 광택 대신 낮은 빛, 가는 선, 실과 재봉의 흔적으로 두 감각의 충돌과 공존을 기록합니다.</p>
+        <h2 data-i18n="about.softTitle">부드러운 쇠맛<br /><i>The Soft Bite</i></h2>
+        <p data-i18n="about.softBody1">개발되지 않은 중촌동 골목의 거친 질감. 바늘과 미싱이 가진 쇠의 감각. 그 위로 내려앉는 부드러운 원단.</p>
+        <p data-i18n="about.softBody2">확정되지 않은 협업의 미래보다, 현재 함께 만든 과정과 장인의 손길에 집중해 두 감각의 공존을 기록합니다.</p>
       </div>
     </section>
 
     <section class="philosophy-statement">
       <p class="eyebrow reveal-on-scroll">OUR PHILOSOPHY</p>
-      <blockquote class="reveal-on-scroll">보존이 아닌 호흡<br /><span>옷 안에서 다시 살아나는 한국.</span></blockquote>
-      <a class="btn" href="products.html">SEASON 01 만나기</a>
+      <blockquote class="reveal-on-scroll" data-i18n="about.philosophy">보존이 아닌 호흡<br /><span>옷 안에서 다시 살아나는 한국.</span></blockquote>
+      <a class="btn" href="products.html" data-i18n="about.viewSeason">SEASON 01 만나기</a>
     </section>
   </main>
 
   <footer class="footer">
-    <p class="logo">설백 <span>雪白</span></p><p class="footer-line">SEOLBAEK · SEASON 01 / 2026</p><p class="biz">사업자 정보는 브랜드 담당자 확인 후 표기됩니다.</p><p>© 2026 SEOLBAEK. All rights reserved.</p>
+    <p class="footer-wordmark">SEOLBAEK · 雪白 <span>설백</span></p><p class="footer-line">SEASON 01 / 2026</p><p class="biz" data-i18n="footer.pending">사업자 정보와 공식 연락처는 브랜드 담당자 확인 후 표기됩니다.</p><p>© 2026 SEOLBAEK. All rights reserved.</p>
   </footer>
   <script src="script.js"></script>
 </body>
