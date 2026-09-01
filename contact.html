@@ -5,44 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>문의 — 설백 雪白</title>
   <meta name="description" content="설백에 문의하는 방법을 안내합니다." />
-  <link rel="icon" href="images/favicon.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="contact-page" data-page="contact">
 
   <header class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="logo" aria-label="설백 홈">설백 <span>雪白</span></a>
+      <a href="index.html" class="logo" aria-label="설백 홈"><span class="logo-latin">SEOLBAEK · 雪白</span><span class="logo-korean">설백</span></a>
       <button class="nav-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
       <nav class="nav-menu">
-        <a href="index.html">홈</a>
-        <a href="about.html">브랜드</a>
-        <a href="products.html">컬렉션</a>
-        <a href="portfolio.html">저널</a>
-        <a href="contact.html" class="active">문의</a>
+        <a href="index.html" data-i18n="nav.home">홈</a>
+        <a href="products.html" data-i18n="nav.collection">컬렉션</a>
+        <a href="about.html" data-i18n="nav.about">설백 이야기</a>
+        <a href="portfolio.html" data-i18n="nav.journal">저널</a>
+        <a href="contact.html" class="active" data-i18n="nav.contact">문의</a>
       </nav>
+      <div class="language-switch" role="group" aria-label="언어 선택"><button type="button" data-language="ko" aria-pressed="true">KR</button><span>/</span><button type="button" data-language="en" aria-pressed="false">EN</button></div>
     </div>
   </header>
 
   <section class="page-head">
-    <h1>문의</h1>
-    <p>설백과 나누고 싶은 이야기를 보내주세요.</p>
+    <p class="eyebrow">PURCHASE & RENTAL</p>
+    <h1 data-i18n="contact.title">문의</h1>
+    <p data-i18n="contact.subtitle">구매와 대여에 필요한 내용을 차분히 남겨주세요.</p>
   </section>
 
-  <!-- [작성서 07] 공식 연락처가 제공되면 아래 자리에서만 교체합니다. -->
-  <section class="section">
-    <div class="contact-list">
-      <div class="contact-item">
-        <p class="label">CONTACT DETAILS</p>
-        <p class="value">공식 연락처와 운영 시간을 준비하고 있습니다.</p>
+  <main class="contact-layout section-wide">
+    <aside class="contact-aside">
+      <p class="eyebrow">BEFORE SENDING</p>
+      <h2 data-i18n="contact.guideTitle">현재 온라인 전송 기능을<br />준비하고 있습니다.</h2>
+      <p data-i18n="contact.guideBody">작성한 내용은 서버로 전송되지 않습니다. 아래 버튼을 누르면 문의 내용만 복사되며, 공식 연락처가 제공된 뒤 해당 채널과 연결할 예정입니다.</p>
+      <dl><div><dt>OFFICIAL CONTACT</dt><dd data-i18n="contact.pending">브랜드 담당자 입력 대기</dd></div><div><dt>INSTAGRAM</dt><dd data-i18n="contact.pending">브랜드 담당자 입력 대기</dd></div></dl>
+    </aside>
+
+    <form id="inquiryForm" class="inquiry-form">
+      <div class="form-grid">
+        <label><span data-i18n="form.name">이름</span><input name="이름" type="text" autocomplete="name" required /></label>
+        <label><span data-i18n="form.contact">연락처</span><input name="연락처" type="text" autocomplete="tel" required /></label>
+        <label><span data-i18n="form.type">문의 유형</span><select name="문의 유형" required><option value="" data-i18n="form.select">선택해 주세요</option><option value="의상 구매" data-i18n="form.buyClothing">의상 구매</option><option value="장신구 구매" data-i18n="form.buyAccessories">장신구 구매</option><option value="의상 대여" data-i18n="form.rentClothing">의상 대여</option><option value="기타 문의" data-i18n="form.other">기타 문의</option></select></label>
+        <label><span data-i18n="form.product">희망 제품</span><input name="희망 제품" type="text" placeholder="제품명 또는 LOOK 번호" data-i18n-placeholder="form.productPlaceholder" /></label>
+        <label><span data-i18n="form.size">희망 사이즈</span><input name="희망 사이즈" type="text" placeholder="확정된 사이즈만 입력해 주세요" data-i18n-placeholder="form.sizePlaceholder" /></label>
+        <label><span data-i18n="form.date">대여 희망일</span><input name="대여 희망일" type="date" /></label>
+        <label class="span-2"><span data-i18n="form.message">문의 내용</span><textarea name="문의 내용" rows="8" required></textarea></label>
       </div>
-    </div>
-  </section>
+      <p class="form-notice" data-i18n="contact.notSent">이 양식은 현재 전송되지 않습니다. 개인정보를 입력하기 전에 안내를 확인해 주세요.</p>
+      <button class="btn" type="submit" data-i18n="contact.copy">문의 내용 복사</button>
+      <p id="inquiryStatus" class="form-status" role="status" tabindex="-1"></p>
+    </form>
+  </main>
 
   <footer class="footer">
-    <p class="logo">설백 <span>雪白</span></p>
-    <p class="footer-line">SEOLBAEK · SEASON 01 / 2026</p>
-    <p class="biz">사업자 정보는 브랜드 담당자 확인 후 표기됩니다.</p>
+    <p class="footer-wordmark">SEOLBAEK · 雪白 <span>설백</span></p>
+    <p class="footer-line">SEASON 01 / 2026</p>
+    <p class="biz" data-i18n="footer.pending">사업자 정보와 공식 연락처는 브랜드 담당자 확인 후 표기됩니다.</p>
     <p>© 2026 SEOLBAEK. All rights reserved.</p>
   </footer>
 

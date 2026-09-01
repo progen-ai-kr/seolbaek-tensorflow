@@ -5,23 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>제품 상세 — 설백 雪白</title>
   <meta name="description" content="설백 SEASON 01 제품 상세 정보" />
-  <link rel="icon" href="images/favicon.png" />
   <link rel="stylesheet" href="style.css?v=20260826-buy-popup-2" />
   <link rel="stylesheet" href="rich-content.css?v=20260826-rich-editor-1" />
 </head>
-<body>
+<body class="product-page" data-page="product">
 
   <header class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="logo" aria-label="설백 홈">설백 <span>雪白</span></a>
+      <a href="index.html" class="logo" aria-label="설백 홈"><span class="logo-latin">SEOLBAEK · 雪白</span><span class="logo-korean">설백</span></a>
       <button class="nav-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
       <nav class="nav-menu">
-        <a href="index.html">홈</a>
-        <a href="about.html">브랜드</a>
-        <a href="products.html" class="active">컬렉션</a>
-        <a href="portfolio.html">저널</a>
-        <a href="contact.html">문의</a>
+        <a href="index.html" data-i18n="nav.home">홈</a>
+        <a href="products.html" class="active" data-i18n="nav.collection">컬렉션</a>
+        <a href="about.html" data-i18n="nav.about">설백 이야기</a>
+        <a href="portfolio.html" data-i18n="nav.journal">저널</a>
+        <a href="contact.html" data-i18n="nav.contact">문의</a>
       </nav>
+      <div class="language-switch" role="group" aria-label="언어 선택"><button type="button" data-language="ko" aria-pressed="true">KR</button><span>/</span><button type="button" data-language="en" aria-pressed="false">EN</button></div>
     </div>
   </header>
 
@@ -49,14 +49,19 @@
     </section>
   </dialog>
 
+  <dialog id="imagePreviewDialog" class="image-preview-dialog" aria-label="제품 이미지 확대 보기">
+    <form method="dialog"><button type="submit" aria-label="확대 이미지 닫기">×</button></form>
+    <img id="imagePreview" alt="" />
+  </dialog>
+
   <section class="section product-back">
-    <a href="products.html" class="btn ghost">← 제품 목록으로</a>
+    <a href="products.html" class="btn ghost" data-i18n="product.back">← 제품 목록으로</a>
   </section>
 
   <footer class="footer">
-    <p class="logo">설백 <span>雪白</span></p>
-    <p class="footer-line">SEOLBAEK · SEASON 01 / 2026</p>
-    <p class="biz">사업자 정보는 브랜드 담당자 확인 후 표기됩니다.</p>
+    <p class="footer-wordmark">SEOLBAEK · 雪白 <span>설백</span></p>
+    <p class="footer-line">SEASON 01 / 2026</p>
+    <p class="biz" data-i18n="footer.pending">사업자 정보와 공식 연락처는 브랜드 담당자 확인 후 표기됩니다.</p>
     <p>© 2026 SEOLBAEK. All rights reserved.</p>
   </footer>
 
@@ -70,11 +75,16 @@
       if (!safeSource) return "";
       return '<img class="' + className + '" src="' + ProductCatalog.escapeHtml(safeSource) +
         '" alt="' + ProductCatalog.escapeHtml(alt || "") + '" loading="' + (eager ? "eager" : "lazy") +
-        '" onerror="this.parentElement.classList.add(\'product-image-placeholder\');this.remove()" />';
+        '" role="button" tabindex="0" data-image-preview onerror="this.parentElement.classList.add(\'product-image-placeholder\');this.remove()" />';
     }
 
     function renderHeroGallery(product) {
       const esc = ProductCatalog.escapeHtml;
+      if (!window.SeolbaekUI.photosReady) {
+        return '<div class="product-photo-pending" role="img" aria-label="대표 및 상세 제품 사진 교체 예정">' +
+          '<div class="product-photo-main"><span>FULL LOOK</span><b>PRODUCT IMAGE<br />TO BE PROVIDED</b></div>' +
+          '<div class="product-detail-slots"><span>FABRIC</span><span>DRAPING</span><span>FINISH</span></div></div>';
+      }
       const images = (Array.isArray(product.images) ? product.images : [])
         .map((source) => ProductCatalog.safeImageUrl(source))
         .filter(Boolean);
@@ -109,6 +119,65 @@
           '<div class="product-carousel-viewport"><div class="product-carousel-track">' + slides + "</div></div>" +
           controls +
         "</div>";
+    }
+
+    function richTextWithoutPendingImages(value) {
+      const template = document.createElement("template");
+      template.innerHTML = ProductCatalog.sanitizeRichText(value);
+      if (!window.SeolbaekUI.photosReady) {
+        template.content.querySelectorAll("img").forEach((image) => image.remove());
+        template.content.querySelectorAll("p, figure").forEach((node) => {
+          if (!node.textContent.trim() && !node.querySelector("video, iframe")) node.remove();
+        });
+      }
+      return template.innerHTML;
+    }
+
+    function parseProductSpecs(product) {
+      const aliases = {
+        "색상": "color", "color": "color", "소재": "material", "material": "material",
+        "사이즈": "size", "size": "size", "제작 방식": "construction", "제작": "construction", "construction": "construction",
+        "디자인 모티브": "motif", "모티브": "motif", "motif": "motif", "구매 또는 대여": "availability", "구매·대여": "availability", "availability": "availability",
+        "관리 방법": "care", "관리": "care", "care": "care"
+      };
+      const values = {};
+      const otherKeywords = [];
+      (Array.isArray(product.keywords) ? product.keywords : []).forEach((keyword) => {
+        const match = String(keyword).match(/^\s*([^:：]+)\s*[:：]\s*(.+)$/);
+        const key = match && aliases[match[1].trim().toLowerCase()];
+        if (key) values[key] = match[2].trim();
+        else otherKeywords.push(keyword);
+      });
+      return { values, otherKeywords };
+    }
+
+    function renderSpecs(product) {
+      const esc = ProductCatalog.escapeHtml;
+      const parsed = parseProductSpecs(product);
+      const isEnglish = document.documentElement.lang === "en";
+      const pending = isEnglish ? "Information pending" : "정보 준비 중";
+      const labels = isEnglish
+        ? { price: "Price", color: "Color", material: "Material", size: "Size", construction: "Construction", motif: "Design motif", availability: "Purchase / Rental", care: "Care" }
+        : { price: "가격", color: "색상", material: "소재", size: "사이즈", construction: "제작 방식", motif: "디자인 모티브", availability: "구매·대여", care: "관리 방법" };
+      const values = { price: product.price || pending, ...parsed.values };
+      const rows = Object.keys(labels).map((key) => '<div><dt>' + labels[key] + '</dt><dd class="' + (values[key] ? '' : 'is-pending') + '">' + esc(values[key] || pending) + '</dd></div>').join("");
+      return '<dl class="product-spec-grid">' + rows + '</dl>';
+    }
+
+    function setupImagePreview() {
+      const dialog = document.getElementById("imagePreviewDialog");
+      const preview = document.getElementById("imagePreview");
+      if (!dialog || !preview) return;
+      function openPreview(image) {
+        preview.src = image.currentSrc || image.src;
+        preview.alt = image.alt;
+        dialog.showModal();
+      }
+      document.querySelectorAll("[data-image-preview]").forEach((image) => {
+        image.addEventListener("click", () => openPreview(image));
+        image.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openPreview(image); } });
+      });
+      dialog.addEventListener("click", (event) => { if (event.target === dialog) dialog.close(); });
     }
 
     function setupProductCarousels() {
@@ -180,7 +249,7 @@
       const rich = ProductCatalog.sanitizeRichText;
 
       if (section.type === "rich_text") {
-        return '<section class="product-block product-rich-text">' + rich(section.body) + "</section>";
+        return '<section class="product-block product-rich-text">' + richTextWithoutPendingImages(section.body) + "</section>";
       }
 
       if (section.type === "full_image") {
@@ -215,63 +284,57 @@
       return "";
     }
 
-    ProductCatalog.loadVisibleProducts()
-      .then((products) => {
-        const product = products.find((item) => item.id === productId);
-        if (!product) throw new Error("제품을 찾을 수 없습니다.");
-
-        document.title = product.name + " — 제품 상세";
+    let loadedProduct = null;
+    function renderProductPage(product) {
+        loadedProduct = product;
+        document.documentElement.classList.toggle("product-photos-ready", window.SeolbaekUI.photosReady);
+        document.title = product.name + " — 설백 雪白";
         const descriptionMeta = document.querySelector('meta[name="description"]');
         if (descriptionMeta) descriptionMeta.content = product.summary || product.name;
 
         const esc = ProductCatalog.escapeHtml;
         const gallery = renderHeroGallery(product);
-
-        const tags = (Array.isArray(product.keywords) ? product.keywords : [])
-          .map((keyword) => "<span>" + esc(keyword) + "</span>").join("");
-        const price = product.price ? '<p class="product-price">' + esc(product.price) + "</p>" : "";
+        const parsedSpecs = parseProductSpecs(product);
+        const tags = parsedSpecs.otherKeywords.map((keyword) => "<span>" + esc(keyword) + "</span>").join("");
         const buyLink = ProductCatalog.safeExternalUrl(product.buyLink);
         const buyNotice = String(product.buyNotice || "").trim();
-        const buyButton = buyLink
-          ? '<a class="btn product-buy" href="' + esc(buyLink) + '" target="_blank" rel="noopener noreferrer">' +
-            esc(product.buyLabel || "구매하기") + " <span aria-hidden=\"true\">↗</span></a>"
-          : buyNotice
-            ? '<button class="btn product-buy" type="button" data-purchase-dialog aria-haspopup="dialog">' +
-              esc(product.buyLabel || "구매하기") + "</button>"
+        const buyButton = window.SeolbaekUI.commerceReady && buyLink
+          ? '<a class="btn product-buy" href="' + esc(buyLink) + '" target="_blank" rel="noopener noreferrer">' + esc(product.buyLabel || "구매하기") + ' <span aria-hidden="true">↗</span></a>'
+          : window.SeolbaekUI.commerceReady && buyNotice
+            ? '<button class="btn product-buy" type="button" data-purchase-dialog aria-haspopup="dialog">' + esc(product.buyLabel || "구매하기") + "</button>"
             : "";
+        const inquiryLabel = document.documentElement.lang === "en" ? "Purchase / rental inquiry" : "구매·대여 문의";
+        const inquiryButton = '<a class="btn ghost product-inquiry" href="contact.html?product=' + encodeURIComponent(product.name) + '">' + inquiryLabel + '</a>';
 
-        let sections = Array.isArray(product.sections)
-          ? product.sections.map((section, index) => renderSection(section, product, index)).join("")
-          : "";
-
-        // 예전 products.json의 description도 상세 내용으로 안전하게 표시합니다.
+        let sections = Array.isArray(product.sections) ? product.sections.map((section, index) => renderSection(section, product, index)).join("") : "";
         if (!sections && product.description) {
-          const paragraphs = String(product.description).split("\n\n")
-            .map((text) => "<p>" + esc(text).replace(/\n/g, "<br />") + "</p>").join("");
+          const paragraphs = String(product.description).split("\n\n").map((text) => "<p>" + esc(text).replace(/\n/g, "<br />") + "</p>").join("");
           sections = '<section class="product-block product-rich-text">' + paragraphs + "</section>";
         }
+        if (!sections.trim()) sections = '<section class="product-block detail-content-pending"><p>DETAIL CONTENT / TO BE PROVIDED</p><span>' + (document.documentElement.lang === "en" ? "Detailed fabric, draping and finish information is awaiting admin input." : "원단·드레이핑·마감 상세 정보 관리자 입력 대기") + '</span></section>';
 
         document.getElementById("product-detail").innerHTML =
-          '<section class="section product-hero">' +
-            '<div class="product-hero-gallery">' + gallery + "</div>" +
-            '<div class="product-info">' +
-              '<p class="k">' + esc(product.label || product.category || "") + "</p>" +
-              "<h1>" + esc(product.name) + "</h1>" +
-              '<p class="product-summary">' + esc(product.summary || "") + "</p>" +
-              price +
-              (tags ? '<div class="tags">' + tags + "</div>" : "") +
-              buyButton +
-            "</div>" +
-          "</section>" +
-          (sections ? '<div class="product-story">' + sections + "</div>" : "");
+          '<section class="section product-hero"><div class="product-hero-gallery">' + gallery + '</div><div class="product-info">' +
+          '<p class="k">' + esc(product.label || product.category || "SEASON 01") + "</p><h1>" + esc(product.name) + '</h1><p class="product-summary">' + esc(product.summary || "") + '</p>' +
+          renderSpecs(product) + (tags ? '<div class="tags">' + tags + "</div>" : "") + '<div class="product-actions">' + buyButton + inquiryButton + "</div></div></section>" +
+          '<div class="product-story"><div class="detail-section-head section"><p class="eyebrow">DETAIL & CRAFT</p><h2>' + (document.documentElement.lang === "en" ? "Fabric, silhouette and finish" : "원단과 실루엣, 마감") + "</h2></div>" + sections + "</div>";
 
         setupProductCarousels();
         setupPurchaseDialog(product);
+        setupImagePreview();
+    }
+
+    ProductCatalog.loadVisibleProducts()
+      .then((products) => {
+        const product = products.find((item) => item.id === productId);
+        if (!product) throw new Error("제품을 찾을 수 없습니다.");
+        renderProductPage(product);
       })
       .catch(() => {
         document.getElementById("product-detail").innerHTML =
           '<section class="section"><h1>제품을 찾을 수 없습니다.</h1><p><a href="products.html">제품 목록으로 돌아가기</a></p></section>';
       });
+    window.addEventListener("seolbaek:language", () => { if (loadedProduct) renderProductPage(loadedProduct); });
   </script>
 </body>
 </html>
