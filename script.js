@@ -52,8 +52,8 @@ window.SeolbaekReveal();
 // 공개 페이지의 공통 언어와 UI 문구입니다. 운영 제품 데이터는 번역하거나 변경하지 않습니다.
 const SEOLBAEK_TRANSLATIONS = {
   en: {
-    "nav.home": "Home", "nav.collection": "Collection", "nav.about": "Our Story", "nav.journal": "Journal", "nav.contact": "Contact",
-    "intro.open": "Open the fabric layer and view the collection", "intro.main": "Today, placed upon Seolbaek's palette", "intro.slogan": "Quiet as snow, vivid as today.",
+    "nav.home": "Home", "nav.collection": "Products", "nav.about": "About Seolbaek", "nav.journal": "Journal", "nav.contact": "Contact",
+    "intro.open": "Open the fabric layer and view products", "intro.main": "Today, placed upon Seolbaek's palette", "intro.slogan": "Quiet as snow, vivid as today.",
     "category.clothing": "Clothing", "category.accessories": "Accessories", "category.rental": "Rental", "category.story": "Our Story",
     "category.clothingBody": "Hanbok made to layer naturally over the clothes of today.", "category.accessoriesBody": "Official images and product information will be added when ready.", "category.rentalBody": "Please ask us about schedules and rental conditions.",
     "home.collectionTitle": "The clothes speak first —<br>2026 Collection", "home.collectionBody": "Light passing through organza, weightless pleats and draping. Meet the first four looks of Seolbaek.", "home.viewCollection": "View full collection",
@@ -113,13 +113,33 @@ applyLanguage(localStorage.getItem("seolbaek-language") || "ko");
 const PRODUCT_PHOTOS_READY = false;
 const COMMERCE_READY = false;
 
-function placeholderMarkup(index, compact) {
+// 실제 운영 JSON은 관리자가 수정하므로 공개 화면에서만 임시 제품 프리셋을 입힙니다.
+const SEOLBAEK_PRODUCT_PRESETS = [
+  { id: "look-01", label: "PURCHASE · CLOTHING", name: "조각보 원피스", summary: "위빙 처리와 살랑거리는 원단", category: "clothing", keywords: ["소재: 오간자", "원단 디테일: 위빙 처리와 살랑거리는 원단", "사이즈: 44/55 방향", "구매·대여: 구매" ] },
+  { id: "look-02", label: "PURCHASE · CLOTHING", name: "능소화 원피스", summary: "둥글게 자른 원단에 주름을 잡아 만든 꽃잎 디테일", category: "clothing", keywords: ["소재: 준비 중", "원단 디테일: 둥근 컷과 주름 꽃잎", "사이즈: 44/55 방향", "구매·대여: 구매" ] },
+  { id: "look-03", label: "PURCHASE · CLOTHING", name: "윤슬 투피스", summary: "유등천 물결이 흐르는 듯한 표현", category: "clothing", keywords: ["소재: 준비 중", "원단 디테일: 유등천 물결 표현", "사이즈: 44/55 방향", "구매·대여: 구매" ] },
+  { id: "seolbaek-bamboo", label: "RENTAL · CLOTHING", name: "대나무 두루마기", summary: "옆쪽 연두색 디테일", category: "rental", keywords: ["소재: 준비 중", "원단 디테일: 옆쪽 연두색 디테일", "사이즈: 코르셋 또는 지퍼 조절", "구매·대여: 대여" ], published: true, featured: true }
+];
+
+function applyProductPresets(products) {
+  const source = Array.isArray(products) ? products : [];
+  return SEOLBAEK_PRODUCT_PRESETS.map((preset) => {
+    const original = source.find((item) => item.id === preset.id) || {};
+    return { ...original, ...preset, images: [], sections: original.sections || [], price: "", buyLink: "", buyNotice: "" };
+  });
+}
+window.SeolbaekProductPresets = { apply: applyProductPresets };
+
+function placeholderMarkup(index, compact, product) {
   const number = String(index + 1).padStart(2, "0");
+  const name = product?.name || "LOOK " + number;
+  const summary = product?.summary || translate("catalog.pending", "제품명·상세 정보 관리자 입력 대기");
+  const label = product?.label || "SEASON 01 / 2026";
   return '<article class="lookbook-card is-placeholder reveal-on-scroll">' +
     '<div class="lookbook-image"><span class="look-index">LOOK ' + number + '</span><div class="placeholder-lines" aria-hidden="true"><i></i><i></i><i></i></div><p>' +
     translate("catalog.imagePending", "제품 이미지<br>교체 예정") + '</p></div>' +
-    '<div class="lookbook-copy"><p class="look-meta">SEASON 01 / 2026</p><h3>LOOK ' + number + '</h3><p>' +
-    translate("catalog.pending", "제품명·상세 정보 관리자 입력 대기") + '</p>' +
+    '<div class="lookbook-copy"><p class="look-meta">' + label + '</p><h3>' + name + '</h3><p>' + summary + '</p>' +
+    (product ? '<a class="line-link" href="product.html?id=' + encodeURIComponent(product.id) + '">상세 보기 <b aria-hidden="true">↗</b></a>' : '') +
     (compact ? '' : '<div class="detail-placeholder-row"><span>FABRIC</span><span>DETAIL</span><span>NATURE</span></div>') + '</div></article>';
 }
 
@@ -141,12 +161,11 @@ window.SeolbaekUI = {
   translate,
   renderProductSlots(products, slotCount, options = {}) {
     // 홈은 실제 시즌 사진이 준비될 때까지 네 개의 교체 슬롯을 명확히 보여줍니다.
-    if (!PRODUCT_PHOTOS_READY) return Array.from({ length: slotCount }, (_, index) => placeholderMarkup(index, options.compact)).join("");
     const items = Array.isArray(products) ? products.slice(0, slotCount) : [];
-    return Array.from({ length: slotCount }, (_, index) => items[index] ? productCardMarkup(items[index], index) : placeholderMarkup(index, options.compact)).join("");
+    return Array.from({ length: slotCount }, (_, index) => items[index] && PRODUCT_PHOTOS_READY ? productCardMarkup(items[index], index) : placeholderMarkup(index, options.compact, items[index])).join("");
   },
   renderCatalog(products) {
-    if (!PRODUCT_PHOTOS_READY) return Array.from({ length: 4 }, (_, index) => placeholderMarkup(index, false)).join("");
+    if (!PRODUCT_PHOTOS_READY) return (Array.isArray(products) ? products : []).map((product, index) => placeholderMarkup(index, false, product)).join("") || placeholderMarkup(0, false);
     return (Array.isArray(products) ? products : []).map(productCardMarkup).join("") || placeholderMarkup(0, false);
   },
   catalogMessage(type) {
@@ -163,16 +182,14 @@ if (intro && introButton && introGateway) {
     intro.classList.add("is-open");
     introButton.setAttribute("aria-expanded", "true");
     introGateway.setAttribute("aria-hidden", "false");
-    window.setTimeout(() => introGateway.querySelector("a")?.focus(), 900);
+    window.setTimeout(() => { window.location.href = "products.html"; }, 760);
   }
   introButton.addEventListener("click", openIntro);
-  if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
-    intro.addEventListener("pointermove", (event) => {
-      const bounds = intro.getBoundingClientRect();
-      intro.style.setProperty("--pointer-x", ((event.clientX - bounds.left) / bounds.width - .5).toFixed(3));
-      intro.style.setProperty("--pointer-y", ((event.clientY - bounds.top) / bounds.height - .5).toFixed(3));
-    }, { passive: true });
-  }
+}
+
+// 홈은 브랜드 소개 뒤에 중촌동 제작 이야기가 오도록 유지하고 보조 인스타그램 영역은 숨깁니다.
+if (document.body.classList.contains("home-page")) {
+  document.querySelector(".instagram-section")?.setAttribute("hidden", "");
 }
 
 // 문의 폼은 백엔드가 없어 전송하지 않고, 사용자가 작성한 내용을 복사만 합니다.
