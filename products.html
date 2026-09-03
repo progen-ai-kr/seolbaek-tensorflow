@@ -21,7 +21,7 @@
 
   <main>
     <section class="collection-head">
-      <div><p class="eyebrow">SEOLBAEK COLLECTION</p><h1>SEASON 01<br /><span>/ 2026</span></h1></div>
+      <div><p class="eyebrow">SEOLBAEK COLLECTION</p><h1><span class="season-year-group">SEASON</span> <span class="season-year-group">01 / 2026</span></h1></div>
       <div><p class="collection-kicker" data-i18n="collection.kicker">옷과 원단에 집중하는 첫 번째 시즌</p><p data-i18n="collection.body">투명한 원단에 스미는 빛, 가벼운 주름과 레이어링을 따라 네 개의 LOOK을 만납니다.</p></div>
     </section>
 
@@ -29,7 +29,6 @@
       <div class="collection-rule"><span>2026 COLLECTION</span><span>SEOLBAEK · 雪白</span></div>
       <div class="catalog-filters" role="group" aria-label="제품 카테고리">
         <button type="button" class="active" data-category="all" aria-pressed="true" data-i18n="filter.all">전체</button>
-        <button type="button" data-category="purchase" aria-pressed="false">구매</button>
         <button type="button" data-category="clothing" aria-pressed="false" data-i18n="category.clothing">의상</button>
         <button type="button" data-category="accessories" aria-pressed="false" data-i18n="category.accessories">장신구</button>
         <button type="button" data-category="rental" aria-pressed="false" data-i18n="category.rental">대여</button>
@@ -50,7 +49,6 @@
     let catalogProducts = [];
     function filterProducts(category) {
       if (category === "all") return catalogProducts;
-      if (category === "purchase") return catalogProducts.filter((product) => product.category !== "rental");
       return catalogProducts.filter((product) => {
         const text = [product.category, product.label, product.name, ...(product.keywords || [])].join(" ").toLowerCase();
         if (category === "accessories") return /장신구|액세서리|accessor|jewelry/.test(text);

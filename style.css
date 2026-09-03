@@ -487,8 +487,10 @@ body { overflow-x: hidden; background: var(--bg); }
 
 .collection-head { min-height: 58vh; }.collection-head > div:last-child { align-self: end; }
 .catalog-filters { display: flex; overflow-x: auto; gap: 0; margin-bottom: var(--space-lg); border-block: 1px solid var(--line); scrollbar-width: none; }
+.catalog-filters { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); overflow: visible; }
 .catalog-filters::-webkit-scrollbar { display: none; }
 .catalog-filters button { flex: 0 0 auto; min-width: 92px; min-height: 48px; padding: 0 16px; border: 0; border-right: 1px solid var(--line); background: transparent; color: var(--ink-soft); font: inherit; font-size: 12px; cursor: pointer; }
+.catalog-filters button { min-width: 0; width: 100%; }
 .catalog-filters button.active { background: var(--ink); color: var(--snow); }
 .catalog-grid { min-height: 320px; }
 
@@ -588,3 +590,35 @@ body { overflow-x: hidden; background: var(--bg); }
 @media (min-width: 720px) { .category-purchase { min-height: 390px; padding: 34px; } }
 @keyframes seolbaek-organza-fold { from { transform: skewX(-7deg) translateX(-1%); } to { transform: skewX(-4deg) translateX(2%); } }
 @media (prefers-reduced-motion: reduce) { .fabric-field span { animation: none; } }
+
+/* 제목과 본문은 한글 단어 단위로만 흐르도록 정돈합니다. */
+body, h1, h2, h3, h4, p, li, dd { word-break: keep-all; overflow-wrap: break-word; }
+p, li, dd { font-size: clamp(.95rem, 1.2vw, 1.08rem); line-height: 1.75; }
+.about-opening h1 { max-width: 9.5em; font-size: clamp(3.2rem, 7vw, 6.8rem); line-height: 1.12; letter-spacing: -.04em; }
+.contact-aside { min-width: 0; }
+.contact-aside h2 { max-width: 34rem; font-size: clamp(2rem, 3.5vw, 3.8rem); line-height: 1.25; }
+.collection-head { min-height: 42vh; }
+.collection-head h1 { display: flex; flex-wrap: wrap; gap: .18em; align-items: baseline; font-size: clamp(3.4rem, 7vw, 6.5rem); line-height: .95; }
+.collection-head h1 .season-year-group { display: inline-block; margin-left: 0; white-space: nowrap; font-size: 1em; }
+.intro-wordmark h1 { max-width: 100%; font-size: clamp(2.5rem, 5vw, 5.2rem); line-height: 1.05; font-weight: 300; letter-spacing: .045em; word-break: keep-all; }
+.intro-wordmark h1 small { font-weight: 700; }
+.intro-subcopy { max-width: 34rem; word-break: keep-all; }
+.editorial-heading > p:last-child, .origin-copy > p, .craft-copy > p:not(.eyebrow), .contact-aside > p:not(.eyebrow) { max-width: 40rem; }
+@media (max-width: 719px) {
+  .about-opening h1 { max-width: 10em; }
+  .collection-head { min-height: 38vh; }
+  .collection-head h1 { font-size: clamp(3.1rem, 15vw, 5rem); }
+}
+
+/* 홈 제목은 넓은 한 줄 영역에서 의미 단위 줄바꿈만 사용합니다. */
+.editorial-heading { grid-template-columns: 1fr; }
+.editorial-heading h2 { max-width: 100%; font-size: clamp(2.8rem, 6vw, 5.4rem); line-height: 1.14; }
+.origin-layout h2 { font-size: clamp(2.8rem, 6vw, 5.4rem); line-height: 1.14; }
+.craft-copy h2 { max-width: 100%; font-size: clamp(2.8rem, 6vw, 5.4rem); line-height: 1.14; }
+.inquiry-banner h2 { max-width: 100%; font-size: clamp(2.8rem, 6vw, 5.4rem); line-height: 1.14; }
+@media (min-width: 720px) { .craft-copy { padding-inline: 0; } .craft-copy h2 { font-size: clamp(2.7rem, 4.5vw, 3.6rem); } }
+
+/* 컬렉션 버튼만 클릭 영역으로 사용합니다. */
+.organza-open { inset: auto 20px 24px auto; width: auto; height: auto; min-width: 132px; min-height: 44px; padding: 10px 0; }
+.organza-open > span:not(.sr-only) { position: static; display: block; padding: 0 0 8px; border-bottom: 1px solid var(--ink); }
+@media (min-width: 720px) { .organza-open { right: 5vw; bottom: 28px; } }

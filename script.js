@@ -63,9 +63,9 @@ const SEOLBAEK_TRANSLATIONS = {
     "placeholder.craft": "Studio and artisan photo placeholder", "placeholder.instagram": "The official Instagram address and images will be linked here when available.", "footer.pending": "Business information and official contact details will be added after confirmation.",
     "catalog.pending": "Product name and images awaiting admin update", "catalog.imagePending": "PRODUCT IMAGE<br>TO BE PROVIDED", "catalog.loadError": "We could not load the collection.",
     "collection.kicker": "A first season focused on clothes and fabric", "collection.body": "Meet four looks through light passing across sheer fabric, weightless pleats and layering.", "collection.note": "Actual 2026 product photos will be replaced once provided. Price, composition, stock and rental terms appear only when entered by the brand manager.", "filter.all": "All",
-    "about.hero": "Hanbok is not<br>clothing held still.", "about.heroNote": "From a preserved object<br>to clothing alive in the present.", "about.breatheTitle": "Hanbok drawn<br>naturally from your wardrobe.", "about.breatheBody": "It does not wait for a special day. Layered over shirts and denim, it creates a new gesture in an ordinary day.", "about.layerTitle": "The moment tradition<br>and the present overlap.", "about.layerBody": "Rather than reproducing the past, we let it change as it meets the senses of now. For Seolbaek, tradition remains a moving material.",
+    "about.hero": "Hanbok is not clothing held still.", "about.heroNote": "From a preserved object<br>to clothing alive in the present.", "about.breatheTitle": "Hanbok drawn<br>naturally from your wardrobe.", "about.breatheBody": "It does not wait for a special day. Layered over shirts and denim, it creates a new gesture in an ordinary day.", "about.layerTitle": "The moment tradition<br>and the present overlap.", "about.layerBody": "Rather than reproducing the past, we let it change as it meets the senses of now. For Seolbaek, tradition remains a moving material.",
     "about.nameTitle": "Where two meanings<br>of white meet", "about.whitePeople": "The people in white", "about.whitePeopleBody": "A memory of white clothing that carries Korean identity.", "about.canvas": "A white canvas", "about.canvasBody": "The open space where every creation and today's colors begin.", "about.softTitle": "The Soft Bite", "about.softBody1": "The rough surfaces of old Jungchon-dong alleys, the metal sense of needles and sewing machines, and soft fabric settling above them.", "about.softBody2": "Rather than claim an unconfirmed future of collaboration, we record the process made together now and the artisan's touch.", "about.philosophy": "Not preservation, but breath<br><span>Korea living again inside the clothes.</span>", "about.viewSeason": "Meet Season 01",
-    "contact.title": "Contact", "contact.subtitle": "Leave the details needed for a purchase or rental inquiry.", "contact.guideTitle": "Online sending<br>is being prepared.", "contact.guideBody": "This form does not send data to a server. The button only copies your inquiry; it will be connected to the official channel once provided.", "contact.pending": "Awaiting brand manager input", "contact.notSent": "This form is not currently submitted. Please read the notice before entering personal information.",
+    "contact.title": "Contact", "contact.subtitle": "Leave the details needed for a purchase or rental inquiry.", "contact.guideTitle": "Online sending is being prepared.", "contact.guideBody": "This form does not send data to a server. The button only copies your inquiry; it will be connected to the official channel once provided.", "contact.pending": "Awaiting brand manager input", "contact.notSent": "This form is not currently submitted. Please read the notice before entering personal information.",
     "form.name": "Name", "form.contact": "Contact", "form.type": "Inquiry type", "form.product": "Preferred product", "form.size": "Preferred size", "form.date": "Rental date", "form.message": "Message", "form.select": "Please select", "form.buyClothing": "Purchase clothing", "form.buyAccessories": "Purchase accessories", "form.rentClothing": "Rent clothing", "form.other": "Other inquiry", "form.productPlaceholder": "Product name or LOOK number", "form.sizePlaceholder": "Enter only a confirmed size",
     "journal.title": "Journal", "journal.subtitle": "Notes on clothing, fabric and the work of Seolbaek.", "product.back": "← Back to collection",
     "contact.copy": "Copy inquiry", "contact.copied": "Your inquiry was copied. It has not been sent.", "contact.copyFailed": "Copy failed. Please select and copy the text manually."
@@ -176,13 +176,11 @@ window.SeolbaekUI = {
 // 첫 화면 오간자 레이어: 포인터에는 아주 작게 반응하고 클릭·키보드로 열립니다.
 const intro = document.querySelector("[data-organza-intro]");
 const introButton = document.querySelector("[data-organza-open]");
-const introGateway = document.getElementById("introGateway");
-if (intro && introButton && introGateway) {
+if (intro && introButton) {
   function openIntro() {
     intro.classList.add("is-open");
     introButton.setAttribute("aria-expanded", "true");
-    introGateway.setAttribute("aria-hidden", "false");
-    window.setTimeout(() => { window.location.href = "products.html"; }, 760);
+    window.location.href = "products.html";
   }
   introButton.addEventListener("click", openIntro);
 }
