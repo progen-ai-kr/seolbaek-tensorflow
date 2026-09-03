@@ -600,7 +600,7 @@ p, li, dd { font-size: clamp(.95rem, 1.2vw, 1.08rem); line-height: 1.75; }
 .collection-head { min-height: 42vh; }
 .collection-head h1 { display: flex; flex-wrap: wrap; gap: .18em; align-items: baseline; font-size: clamp(3.4rem, 7vw, 6.5rem); line-height: .95; }
 .collection-head h1 .season-year-group { display: inline-block; margin-left: 0; white-space: nowrap; font-size: 1em; }
-.intro-wordmark h1 { max-width: 100%; font-size: clamp(2.5rem, 5vw, 5.2rem); line-height: 1.05; font-weight: 300; letter-spacing: .045em; word-break: keep-all; }
+.intro-wordmark h1 { max-width: 100%; font-family: var(--font-main); font-size: clamp(2.5rem, 5vw, 5.2rem); line-height: 1.05; font-weight: 300; letter-spacing: .045em; word-break: keep-all; }
 .intro-wordmark h1 small { font-weight: 700; }
 .intro-subcopy { max-width: 34rem; word-break: keep-all; }
 .editorial-heading > p:last-child, .origin-copy > p, .craft-copy > p:not(.eyebrow), .contact-aside > p:not(.eyebrow) { max-width: 40rem; }
@@ -622,3 +622,17 @@ p, li, dd { font-size: clamp(.95rem, 1.2vw, 1.08rem); line-height: 1.75; }
 .organza-open { inset: auto 20px 24px auto; width: auto; height: auto; min-width: 132px; min-height: 44px; padding: 10px 0; }
 .organza-open > span:not(.sr-only) { position: static; display: block; padding: 0 0 8px; border-bottom: 1px solid var(--ink); }
 @media (min-width: 720px) { .organza-open { right: 5vw; bottom: 28px; } }
+
+/* 오간자 레이어만 아주 느리고 작게 왕복합니다. */
+.fabric-field span { animation: seolbaek-organza-breeze 12s ease-in-out infinite alternate; }
+.fabric-field span:nth-child(2) { animation-delay: -4s; }
+.fabric-field span:nth-child(3) { animation-delay: -8s; }
+@keyframes seolbaek-organza-breeze { from { transform: translateX(-4px) rotate(-.2deg); } to { transform: translateX(4px) rotate(.2deg); } }
+@media (prefers-reduced-motion: reduce) { .fabric-field span { animation: none !important; } }
+
+/* 백의민족과 흰 캔버스 섹션은 베이지 흐름을 유지합니다. */
+.origin-teaser { background: var(--snow); color: var(--ink); }
+.origin-teaser .eyebrow, .origin-teaser .origin-copy, .origin-teaser .line-link { color: var(--blue); }
+.origin-teaser .origin-copy { color: var(--ink); }
+.inquiry-banner h2 { font-size: 35pt; line-height: 1.25; word-break: keep-all; white-space: nowrap; }
+@media (max-width: 719px) { .inquiry-banner h2 { font-size: 20pt; white-space: normal; } }
