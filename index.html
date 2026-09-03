@@ -102,7 +102,6 @@
   <script>
     // 운영 제품 필드는 바꾸지 않고 관리자가 공개한 대표 제품만 표시합니다.
     ProductCatalog.loadVisibleProducts().then((products) => {
-      products = window.SeolbaekProductPresets.apply(products);
       const featured = products.filter((product) => product.featured);
       const homeProducts = (featured.length ? featured : products).slice(0, 4);
       const box = document.getElementById("home-looks");

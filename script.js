@@ -108,28 +108,6 @@ document.querySelectorAll("[data-language]").forEach((button) => {
 });
 applyLanguage(localStorage.getItem("seolbaek-language") || "ko");
 
-// 실제 2026 제품 사진이 확인되기 전에는 기존 샘플을 노출하지 않습니다.
-// 사진 반영이 끝나면 아래 값을 true로 바꾸면 관리자 images 필드가 자동으로 표시됩니다.
-const PRODUCT_PHOTOS_READY = false;
-const COMMERCE_READY = false;
-
-// 실제 운영 JSON은 관리자가 수정하므로 공개 화면에서만 임시 제품 프리셋을 입힙니다.
-const SEOLBAEK_PRODUCT_PRESETS = [
-  { id: "look-01", label: "PURCHASE · CLOTHING", name: "조각보 원피스", summary: "위빙 처리와 살랑거리는 원단", category: "clothing", keywords: ["소재: 오간자", "원단 디테일: 위빙 처리와 살랑거리는 원단", "사이즈: 44/55 방향", "구매·대여: 구매" ] },
-  { id: "look-02", label: "PURCHASE · CLOTHING", name: "능소화 원피스", summary: "둥글게 자른 원단에 주름을 잡아 만든 꽃잎 디테일", category: "clothing", keywords: ["소재: 준비 중", "원단 디테일: 둥근 컷과 주름 꽃잎", "사이즈: 44/55 방향", "구매·대여: 구매" ] },
-  { id: "look-03", label: "PURCHASE · CLOTHING", name: "윤슬 투피스", summary: "유등천 물결이 흐르는 듯한 표현", category: "clothing", keywords: ["소재: 준비 중", "원단 디테일: 유등천 물결 표현", "사이즈: 44/55 방향", "구매·대여: 구매" ] },
-  { id: "seolbaek-bamboo", label: "RENTAL · CLOTHING", name: "대나무 두루마기", summary: "옆쪽 연두색 디테일", category: "rental", keywords: ["소재: 준비 중", "원단 디테일: 옆쪽 연두색 디테일", "사이즈: 코르셋 또는 지퍼 조절", "구매·대여: 대여" ], published: true, featured: true }
-];
-
-function applyProductPresets(products) {
-  const source = Array.isArray(products) ? products : [];
-  return SEOLBAEK_PRODUCT_PRESETS.map((preset) => {
-    const original = source.find((item) => item.id === preset.id) || {};
-    return { ...original, ...preset, images: [], sections: original.sections || [], price: "", buyLink: "", buyNotice: "" };
-  });
-}
-window.SeolbaekProductPresets = { apply: applyProductPresets };
-
 function placeholderMarkup(index, compact, product) {
   const number = String(index + 1).padStart(2, "0");
   const name = product?.name || "LOOK " + number;
@@ -145,7 +123,7 @@ function placeholderMarkup(index, compact, product) {
 
 function productCardMarkup(product, index) {
   const escape = window.ProductCatalog.escapeHtml;
-  const image = PRODUCT_PHOTOS_READY && window.ProductCatalog.safeImageUrl(product.images && product.images[0]);
+  const image = window.ProductCatalog.safeImageUrl(product.images && product.images[0]);
   const imageMarkup = image
     ? '<img src="' + escape(image) + '" alt="' + escape(product.name || "") + '" loading="lazy" onerror="this.remove()">'
     : '<div class="placeholder-lines" aria-hidden="true"><i></i><i></i><i></i></div><p>' + translate("catalog.imagePending", "제품 이미지<br>교체 예정") + '</p>';
@@ -156,16 +134,15 @@ function productCardMarkup(product, index) {
 }
 
 window.SeolbaekUI = {
-  photosReady: PRODUCT_PHOTOS_READY,
-  commerceReady: COMMERCE_READY,
   translate,
   renderProductSlots(products, slotCount, options = {}) {
-    // 홈은 실제 시즌 사진이 준비될 때까지 네 개의 교체 슬롯을 명확히 보여줍니다.
+    // 관리자가 공개한 제품만 홈에 표시합니다.
     const items = Array.isArray(products) ? products.slice(0, slotCount) : [];
-    return Array.from({ length: slotCount }, (_, index) => items[index] && PRODUCT_PHOTOS_READY ? productCardMarkup(items[index], index) : placeholderMarkup(index, options.compact, items[index])).join("");
+    return items.length
+      ? items.map((product, index) => productCardMarkup(product, index)).join("")
+      : placeholderMarkup(0, options.compact);
   },
   renderCatalog(products) {
-    if (!PRODUCT_PHOTOS_READY) return (Array.isArray(products) ? products : []).map((product, index) => placeholderMarkup(index, false, product)).join("") || placeholderMarkup(0, false);
     return (Array.isArray(products) ? products : []).map(productCardMarkup).join("") || placeholderMarkup(0, false);
   },
   catalogMessage(type) {
