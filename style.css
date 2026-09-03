@@ -622,7 +622,6 @@ p, li, dd { font-size: clamp(.95rem, 1.2vw, 1.08rem); line-height: 1.75; }
 .organza-open { inset: auto 20px 24px auto; width: auto; height: auto; min-width: 132px; min-height: 44px; padding: 10px 0; }
 .organza-open > span:not(.sr-only) { position: static; display: block; padding: 0 0 8px; border-bottom: 1px solid var(--ink); }
 @media (min-width: 720px) { .organza-open { right: 5vw; bottom: 28px; } }
-
 /* 오간자 레이어만 아주 느리고 작게 왕복합니다. */
 .fabric-field span { animation: seolbaek-organza-breeze 12s ease-in-out infinite alternate; }
 .fabric-field span:nth-child(2) { animation-delay: -4s; }
