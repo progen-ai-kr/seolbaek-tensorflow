@@ -52,7 +52,7 @@ window.SeolbaekReveal();
 // 공개 페이지의 공통 언어와 UI 문구입니다. 운영 제품 데이터는 번역하거나 변경하지 않습니다.
 const SEOLBAEK_TRANSLATIONS = {
   en: {
-    "nav.home": "Home", "nav.collection": "Products", "nav.about": "About Seolbaek", "nav.journal": "Journal", "nav.portfolio": "PORTFOLIO", "nav.contact": "Contact",
+    "nav.home": "Home", "nav.collection": "Products", "nav.about": "About Seolbaek", "nav.journal": "Journal", "nav.portfolio": "PORTFOLIO", "nav.contact": "Contact", "cart.label": "CART", "cart.title": "Cart",
     "intro.open": "Open the fabric layer and view products", "intro.main": "Today, placed upon Seolbaek's palette", "intro.slogan": "Quiet as snow, vivid as today.",
     "category.clothing": "Clothing", "category.accessories": "Accessories", "category.rental": "Rental", "category.story": "Our Story",
     "category.clothingBody": "Hanbok made to layer naturally over the clothes of today.", "category.accessoriesBody": "Official images and product information will be added when ready.", "category.rentalBody": "Please ask us about schedules and rental conditions.",

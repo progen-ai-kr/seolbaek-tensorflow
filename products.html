@@ -13,7 +13,7 @@
       <a href="index.html" class="logo" aria-label="설백 홈"><span class="logo-latin">SEOLBAEK · 雪白</span><span class="logo-korean">설백</span></a>
       <button class="nav-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
       <nav class="nav-menu" aria-label="주요 메뉴">
-        <a href="index.html" data-i18n="nav.home">홈</a><a href="products.html" class="active" data-i18n="nav.collection">제품</a><a href="portfolio.html" data-i18n="nav.portfolio" data-i18n-ko="포트폴리오">포트폴리오</a><a href="about.html" data-i18n="nav.about">브랜드 소개</a><a href="contact.html" data-i18n="nav.contact">문의</a>
+        <a href="index.html" data-i18n="nav.home">홈</a><a href="products.html" class="active" data-i18n="nav.collection">제품</a><a href="portfolio.html" data-i18n="nav.portfolio" data-i18n-ko="포트폴리오">포트폴리오</a><a href="about.html" data-i18n="nav.about">브랜드 소개</a><a href="contact.html" data-i18n="nav.contact">문의</a><a href="cart.html" class="cart-nav-link" data-cart-link aria-label="장바구니 0"><span data-i18n="cart.label" data-i18n-ko="장바구니">장바구니</span> <span data-cart-count>0</span></a>
       </nav>
       <div class="language-switch" role="group" aria-label="언어 선택"><button type="button" data-language="ko" aria-pressed="true">KR</button><span>/</span><button type="button" data-language="en" aria-pressed="false">EN</button></div>
     </div>
@@ -44,7 +44,7 @@
   </footer>
 
   <script src="script.js"></script>
-  <script src="catalog.js?v=20260826-rich-editor-1"></script>
+  <script src="catalog.js?v=20260826-rich-editor-1"></script><script src="cart.js"></script>
   <script>
     let catalogProducts = [];
     function filterProducts(category) {
