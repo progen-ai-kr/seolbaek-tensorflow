@@ -70,7 +70,7 @@
       renderCategory(button.dataset.category);
     }));
     ProductCatalog.loadVisibleProducts().then((products) => {
-      catalogProducts = window.SeolbaekProductPresets.apply(products);
+      catalogProducts = products;
       const requested = new URLSearchParams(location.search).get("category") || "all";
       const selected = document.querySelector('[data-category="' + requested + '"]') || document.querySelector('[data-category="all"]');
       selected.click();
