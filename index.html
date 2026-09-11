@@ -40,7 +40,7 @@
       <div class="fabric-field" aria-hidden="true"><span></span><span></span><span></span></div>
       <div class="intro-wordmark">
         <p>SEASON 01 / 2026</p>
-        <h1 id="intro-title">SEOLBAEK · 雪白<small>설백</small></h1>
+        <h1 id="intro-title">설백<small>雪白</small></h1>
       </div>
       <button class="organza-open" type="button" data-organza-open aria-expanded="false">
         <span class="sr-only" data-i18n="intro.open">원단을 열어 제품 보기</span><span aria-hidden="true">컬렉션 보기</span>
@@ -53,10 +53,10 @@
 
     <!-- 제품명·설명은 운영 products.json에서만 불러옵니다. -->
     <section id="collection" class="home-collection section-wide">
-      <div class="editorial-heading reveal-on-scroll">
-        <p class="eyebrow">SEASON 01 / 2026</p>
-        <h2 data-i18n="home.collectionTitle">옷이 먼저 말하는<br />2026 컬렉션</h2>
-        <p data-i18n="home.collectionBody">오간자 사이로 스미는 빛, 가벼운 주름과 드레이핑. 설백의 첫 네 가지 LOOK.</p>
+      <!-- 제품 페이지와 같은 제목·설명 2열 구조이며 모바일에서는 세로로 배치합니다. -->
+      <div class="collection-head home-collection-head reveal-on-scroll">
+        <div><p class="eyebrow">SEOLBAEK COLLECTION</p><h2 data-i18n="home.collectionTitle">설백의<br />첫 컬렉션</h2></div>
+        <div><p data-i18n="home.collectionBody">다섯 가지 시즌 컬러로 엮은 2026 시리즈</p></div>
       </div>
       <div class="lookbook-grid" id="home-looks" aria-live="polite"></div>
       <a class="line-link" href="products.html"><span data-i18n="home.viewCollection">전체 컬렉션 보기</span><b aria-hidden="true">↗</b></a>
@@ -67,6 +67,7 @@
       <div class="category-grid">
         <div class="category-purchase"><span>01</span><h3>구매</h3><p>의상과 장신구를 선택해 보세요.</p><div class="category-sublinks"><a href="products.html?category=clothing">의상</a><a href="products.html?category=accessories">장신구</a></div></div>
         <a href="products.html?category=rental"><span>02</span><h3 data-i18n="category.rental">대여</h3><p data-i18n="category.rentalBody">착용 일정과 조건은 문의를 통해 확인합니다.</p></a>
+        <div class="category-photo-area"><img src="images/category-rental-editorial.png" alt="오간자 원단의 부드러운 주름" /></div>
       </div>
     </section>
 
@@ -78,8 +79,8 @@
     </section>
 
     <section class="craft-section section-wide">
-      <div class="media-placeholder craft-placeholder reveal-on-scroll" role="img" aria-label="작업실과 장인의 실제 사진이 들어갈 자리">
-        <span>CRAFT IMAGE / TO BE PROVIDED</span><small data-i18n="placeholder.craft">작업실·장인 사진 교체 위치</small>
+      <div class="media-placeholder craft-placeholder reveal-on-scroll" role="img" aria-label="설백 시즌 컬러 그래픽">
+        <img src="images/season-chips-editorial.png" alt="설백 시즌 컬러 그래픽" />
       </div>
       <div class="craft-copy reveal-on-scroll"><p class="eyebrow">THE SOFT BITE</p><h2 data-i18n="home.craftTitle">거친 골목,<br />부드러운 손길</h2><p data-i18n="home.craftBody">중촌동의 오래된 표면과 바늘·미싱의 낮은 쇠빛, 그 위에 내려앉는 가벼운 원단.</p><a class="line-link" href="about.html#soft-bite"><span data-i18n="home.viewCraft">제작 이야기 보기</span><b aria-hidden="true">↗</b></a></div>
     </section>
