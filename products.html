@@ -44,7 +44,7 @@
     <p class="footer-wordmark">SEOLBAEK · 雪白 <span>설백</span></p><p class="footer-line">SEASON 01 / 2026</p><p class="biz" data-i18n="footer.pending">사업자 정보와 공식 연락처는 브랜드 담당자 확인 후 표기됩니다.</p><p>© 2026 SEOLBAEK. All rights reserved.</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=season-looks-20260913"></script>
   <script src="catalog.js?v=20260826-rich-editor-1"></script><script src="cart.js"></script>
   <script>
     let catalogProducts = [];
@@ -55,6 +55,8 @@
         // 대여는 기존 목록 판정식을 유지합니다. 구매는 실제 구분 값으로 대여 전용을 제외합니다.
         if (category === "rental") return /대여|rental|rent/.test(text);
         const metadata = [product.category, product.label, ...(product.keywords || [])].join(" ").toLowerCase();
+        // 시즌 네 LOOK은 기본 의상 목록에서 한 번에 소개합니다. 대나무 두루마기는 대여 표기를 유지합니다.
+        if (category === "clothing" && product.id === "seolbaek-bamboo" && product.homeImage) return true;
         const rentalOnly = /대여|rental|rent/.test(metadata) && !/구매|purchase/.test(metadata.replace(/구매\s*·\s*대여\s*:/g, ""));
         if (rentalOnly) return false;
         const accessory = /장신구|액세서리|accessor|jewelry/.test(metadata);

@@ -115,10 +115,10 @@ const COMMERCE_READY = false;
 
 // 실제 운영 JSON은 관리자가 수정하므로 공개 화면에서만 임시 제품 프리셋을 입힙니다.
 const SEOLBAEK_PRODUCT_PRESETS = [
-  { id: "look-01", label: "PURCHASE · CLOTHING", name: "조각보 원피스", summary: "위빙 처리와 살랑거리는 원단", category: "clothing", keywords: ["소재: 오간자", "원단 디테일: 위빙 처리와 살랑거리는 원단", "사이즈: 44/55 방향", "구매·대여: 구매" ] },
-  { id: "look-02", label: "PURCHASE · CLOTHING", name: "능소화 원피스", summary: "둥글게 자른 원단에 주름을 잡아 만든 꽃잎 디테일", category: "clothing", keywords: ["소재: 준비 중", "원단 디테일: 둥근 컷과 주름 꽃잎", "사이즈: 44/55 방향", "구매·대여: 구매" ] },
-  { id: "look-03", label: "PURCHASE · CLOTHING", name: "윤슬 투피스", summary: "유등천 물결이 흐르는 듯한 표현", category: "clothing", keywords: ["소재: 준비 중", "원단 디테일: 유등천 물결 표현", "사이즈: 44/55 방향", "구매·대여: 구매" ] },
-  { id: "seolbaek-bamboo", label: "RENTAL · CLOTHING", name: "대나무 두루마기", summary: "옆쪽 연두색 디테일", category: "rental", keywords: ["소재: 준비 중", "원단 디테일: 옆쪽 연두색 디테일", "사이즈: 코르셋 또는 지퍼 조절", "구매·대여: 대여" ], published: true, featured: true }
+  { id: "look-01", label: "PURCHASE · CLOTHING", name: "위빙 갈래 원피스", summary: "위빙 처리와 살랑거리는 원단", category: "clothing", homeImage: "images/look-01-weaving-dress.png", keywords: ["소재: 오간자", "원단 디테일: 위빙 처리와 살랑거리는 원단", "사이즈: 44/55 방향", "구매·대여: 구매" ] },
+  { id: "look-02", label: "PURCHASE · CLOTHING", name: "능소화 원피스", summary: "둥글게 자른 원단에 주름을 잡아 만든 꽃잎 디테일", category: "clothing", homeImage: "images/look-02-neungsohwa-dress.png", keywords: ["소재: 준비 중", "원단 디테일: 둥근 컷과 주름 꽃잎", "사이즈: 44/55 방향", "구매·대여: 구매" ] },
+  { id: "look-03", label: "PURCHASE · CLOTHING", name: "윤슬 투피스", summary: "유등천 물결이 흐르는 듯한 표현", category: "clothing", homeImage: "images/look-03-yoonseul-two-piece.png", keywords: ["소재: 준비 중", "원단 디테일: 유등천 물결 표현", "사이즈: 44/55 방향", "구매·대여: 구매" ] },
+  { id: "seolbaek-bamboo", label: "RENTAL · CLOTHING", name: "대나무 두루마기", summary: "옆쪽 연두색 디테일", category: "rental", homeImage: "images/look-04-bamboo-durumagi.png", keywords: ["소재: 준비 중", "원단 디테일: 옆쪽 연두색 디테일", "사이즈: 코르셋 또는 지퍼 조절", "구매·대여: 대여" ], published: true, featured: true }
 ];
 
 function applyProductPresets(products) {
@@ -135,9 +135,11 @@ function placeholderMarkup(index, compact, product) {
   const name = product?.name || "LOOK " + number;
   const summary = product?.summary || translate("catalog.pending", "제품명·상세 정보 관리자 입력 대기");
   const label = product?.label || "SEASON 01 / 2026";
-  return '<article class="lookbook-card is-placeholder reveal-on-scroll">' +
-    '<div class="lookbook-image"><span class="look-index">LOOK ' + number + '</span><div class="placeholder-lines" aria-hidden="true"><i></i><i></i><i></i></div><p>' +
-    translate("catalog.imagePending", "제품 이미지<br>교체 예정") + '</p></div>' +
+  const visual = product?.homeImage
+    ? '<img src="' + product.homeImage + '" alt="' + name + '" loading="lazy">'
+    : '<div class="placeholder-lines" aria-hidden="true"><i></i><i></i><i></i></div><p>' + translate("catalog.imagePending", "제품 이미지<br>교체 예정") + '</p>';
+  return '<article class="lookbook-card' + (product?.homeImage ? '' : ' is-placeholder') + ' reveal-on-scroll">' +
+    '<div class="lookbook-image">' + visual + '<span class="look-index">LOOK ' + number + '</span></div>' +
     '<div class="lookbook-copy"><p class="look-meta">' + label + '</p><h3>' + name + '</h3><p>' + summary + '</p>' +
     (product ? '<a class="line-link" href="product.html?id=' + encodeURIComponent(product.id) + '">상세 보기 <b aria-hidden="true">↗</b></a>' : '') +
     (compact ? '' : '<div class="detail-placeholder-row"><span>FABRIC</span><span>DETAIL</span><span>NATURE</span></div>') + '</div></article>';
@@ -145,7 +147,7 @@ function placeholderMarkup(index, compact, product) {
 
 function productCardMarkup(product, index) {
   const escape = window.ProductCatalog.escapeHtml;
-  const image = PRODUCT_PHOTOS_READY && window.ProductCatalog.safeImageUrl(product.images && product.images[0]);
+  const image = product.homeImage || (PRODUCT_PHOTOS_READY && window.ProductCatalog.safeImageUrl(product.images && product.images[0]));
   const imageMarkup = image
     ? '<img src="' + escape(image) + '" alt="' + escape(product.name || "") + '" loading="lazy" onerror="this.remove()">'
     : '<div class="placeholder-lines" aria-hidden="true"><i></i><i></i><i></i></div><p>' + translate("catalog.imagePending", "제품 이미지<br>교체 예정") + '</p>';
@@ -165,8 +167,11 @@ window.SeolbaekUI = {
     return Array.from({ length: slotCount }, (_, index) => items[index] && PRODUCT_PHOTOS_READY ? productCardMarkup(items[index], index) : placeholderMarkup(index, options.compact, items[index])).join("");
   },
   renderCatalog(products) {
-    if (!PRODUCT_PHOTOS_READY) return (Array.isArray(products) ? products : []).map((product, index) => placeholderMarkup(index, false, product)).join("") || placeholderMarkup(0, false);
-    return (Array.isArray(products) ? products : []).map(productCardMarkup).join("") || placeholderMarkup(0, false);
+    const source = Array.isArray(products) ? products : [];
+    if (!PRODUCT_PHOTOS_READY && !source.some((product) => product && product.homeImage)) {
+      return source.map((product, index) => placeholderMarkup(index, false, product)).join("") || placeholderMarkup(0, false);
+    }
+    return source.map(productCardMarkup).join("") || placeholderMarkup(0, false);
   },
   catalogMessage(type) {
     return '<p class="catalog-empty">' + (type === "loadError" ? translate("catalog.loadError", "컬렉션을 불러오지 못했습니다.") : translate("catalog.pending", "제품 정보를 준비하고 있습니다.")) + '</p>';
