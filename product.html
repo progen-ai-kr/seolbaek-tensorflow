@@ -66,7 +66,7 @@
     <p>© 2026 SEOLBAEK. All rights reserved.</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=season-looks-20260913"></script>
   <script src="catalog.js?v=20260826-rich-editor-1"></script><script src="cart.js"></script>
   <script>
     const productId = new URLSearchParams(location.search).get("id");
@@ -81,12 +81,13 @@
 
     function renderHeroGallery(product) {
       const esc = ProductCatalog.escapeHtml;
-      if (!window.SeolbaekUI.photosReady) {
+      if (!window.SeolbaekUI.photosReady && !product.homeImage) {
         return '<div class="product-photo-pending" role="img" aria-label="대표 및 상세 제품 사진 교체 예정">' +
           '<div class="product-photo-main"><span>FULL LOOK</span><b>PRODUCT IMAGE<br />TO BE PROVIDED</b></div>' +
           '<div class="product-detail-slots"><span>FABRIC</span><span>DRAPING</span><span>FINISH</span></div></div>';
       }
-      const images = (Array.isArray(product.images) ? product.images : [])
+      const sources = [product.homeImage, ...(window.SeolbaekUI.photosReady && Array.isArray(product.images) ? product.images : [])].filter(Boolean);
+      const images = sources
         .map((source) => ProductCatalog.safeImageUrl(source))
         .filter(Boolean);
 

@@ -9,7 +9,7 @@
   <meta property="og:description" content="설백의 팔레트 위 현대의 우리를 담다" />
   <!-- 정식 제품·브랜드 이미지 제공 후 og:image를 추가하세요. -->
   <meta property="og:type" content="website" />
-  <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css?v=organza-breeze-12" />
 </head>
 <body class="home-page" data-page="home">
   <header class="nav">
@@ -36,10 +36,30 @@
     <!-- 클릭하면 반투명한 원단이 열리고 컬렉션 진입 메뉴가 나타납니다. -->
     <section class="organza-intro" aria-labelledby="intro-title" data-organza-intro>
       <div class="sun-wash" aria-hidden="true"></div>
-      <div class="organza-photo" aria-hidden="true"></div>
-      <div class="fabric-field" aria-hidden="true"><span></span><span></span><span></span></div>
+      <!-- 원본 구도는 고정하고, 마스크로 상단·오른쪽 원단만 부드럽게 움직입니다. -->
+      <div class="fabric-field" aria-hidden="true">
+        <svg class="organza-cloth" viewBox="0 0 1672 941" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="organza-right">
+              <stop offset="30%" stop-color="white" stop-opacity="0.18" />
+              <stop offset="58%" stop-color="white" />
+            </linearGradient>
+            <linearGradient id="organza-top" x2="0" y2="1">
+              <stop offset="0%" stop-color="white" />
+              <stop offset="34%" stop-color="white" stop-opacity="0" />
+            </linearGradient>
+            <mask id="organza-moving-area" maskUnits="userSpaceOnUse" x="0" y="0" width="1672" height="941" style="mask-type: alpha">
+              <rect width="1672" height="941" fill="url(#organza-right)" />
+            </mask>
+            <filter id="organza-wind" x="-4%" y="-5%" width="108%" height="110%" color-interpolation-filters="sRGB">
+              <feTurbulence type="fractalNoise" baseFrequency="0.003 0.009" numOctaves="1" seed="8" result="wind" />
+              <feDisplacementMap in="SourceGraphic" in2="wind" scale="0" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+          </defs>
+          <image href="images/home-organza-seolbaek.png?v=organza-5" x="-8" y="-8" width="1688" height="957" />
+        </svg>
+      </div>
       <div class="intro-wordmark">
-        <p>SEASON 01 / 2026</p>
         <h1 id="intro-title">설백<small>雪白</small></h1>
       </div>
       <button class="organza-open" type="button" data-organza-open aria-expanded="false">
@@ -94,7 +114,7 @@
     <p class="footer-wordmark">SEOLBAEK · 雪白 <span>설백</span></p><p class="footer-line">SEASON 01 / 2026</p><p class="biz" data-i18n="footer.pending">사업자 정보와 공식 연락처는 브랜드 담당자 확인 후 표기됩니다.</p><p>© 2026 SEOLBAEK. All rights reserved.</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=season-looks-20260913"></script>
   <script src="catalog.js?v=20260826-rich-editor-1"></script><script src="cart.js"></script>
   <script>
     // 운영 제품 필드는 바꾸지 않고 관리자가 공개한 대표 제품만 표시합니다.
@@ -107,5 +127,119 @@
       window.SeolbaekReveal && window.SeolbaekReveal();
     }).catch(() => { document.getElementById("home-looks").innerHTML = window.SeolbaekUI.catalogMessage("loadError"); });
   </script>
+<script>
+(() => {
+  const svg = document.querySelector('.organza-cloth');
+  const picture = svg?.querySelector(':scope > image');
+  const defs = svg?.querySelector('defs');
+  if (!picture || !defs) return;
+
+  const ns = 'http://www.w3.org/2000/svg';
+  const make = (name, attrs) => {
+    const el = document.createElementNS(ns, name);
+    Object.entries(attrs).forEach(([key, value]) => {
+      el.setAttribute(key, value);
+    });
+    return el;
+  };
+
+  // 왼쪽은 고정하고 오른쪽으로 갈수록 움직임을 더합니다.
+  const map = `
+    <svg xmlns="${ns}" width="1672" height="941"
+         viewBox="0 0 1672 941">
+      <defs>
+        <linearGradient id="fade">
+          <stop offset="42%" stop-color="white" stop-opacity="0"/>
+          <stop offset="70%" stop-color="white"/>
+        </linearGradient>
+        <linearGradient id="down" x2="0" y2="1">
+          <stop stop-color="white" stop-opacity="0.12"/>
+          <stop offset="100%" stop-color="white"/>
+        </linearGradient>
+        <mask id="region">
+          <rect width="1672" height="941" fill="url(#fade)"/>
+        </mask>
+      </defs>
+      <rect width="1672" height="941"
+            fill="url(#down)" mask="url(#region)"/>
+    </svg>`;
+
+  const filter = make('filter', {
+    id: 'blue-cloth-breeze',
+    x: '-5%', y: '-5%',
+    width: '110%', height: '110%',
+    'color-interpolation-filters': 'sRGB'
+  });
+
+  filter.append(
+    make('feTurbulence', {
+      type: 'fractalNoise',
+      baseFrequency: '0.002 0.005',
+      numOctaves: '1',
+      seed: '8',
+      result: 'noise'
+    }),
+    make('feImage', {
+      href: 'data:image/svg+xml;charset=utf-8,' +
+        encodeURIComponent(map),
+      x: '-8', y: '-8', width: '1688', height: '957',
+      preserveAspectRatio: 'none',
+      result: 'region'
+    }),
+    make('feComposite', {
+      in: 'noise', in2: 'region',
+      operator: 'in', result: 'localNoise'
+    }),
+    make('feFlood', {
+      'flood-color': 'rgb(50%,50%,50%)',
+      result: 'neutral'
+    }),
+    make('feComposite', {
+      in: 'localNoise', in2: 'neutral',
+      operator: 'over', result: 'movement'
+    })
+  );
+
+  const displacement = make('feDisplacementMap', {
+    in: 'SourceGraphic',
+    in2: 'movement',
+    scale: '0',
+    xChannelSelector: 'R',
+    yChannelSelector: 'G'
+  });
+
+  filter.append(displacement);
+  defs.append(filter);
+  picture.setAttribute('filter', 'url(#blue-cloth-breeze)');
+
+  // 햇빛 효과는 고정합니다.
+  const style = document.createElement('style');
+  style.textContent = `
+    .organza-intro .sun-wash::before {
+      animation: none !important;
+      opacity: .16;
+    }
+  `;
+  document.head.append(style);
+
+  let elapsed = 0;
+  let previous = null;
+
+  function animate(now) {
+    if (previous !== null && !document.hidden) {
+      elapsed += Math.min(now - previous, 80);
+    }
+    previous = now;
+
+    const strength = window.innerWidth < 720 ? 80 : 140;
+    const wave = Math.sin(elapsed * Math.PI * 2 / 10000);
+    displacement.setAttribute('scale', (strength * wave).toFixed(2));
+
+    requestAnimationFrame(animate);
+  }
+
+  requestAnimationFrame(animate);
+})();
+</script>
 </body>
 </html>

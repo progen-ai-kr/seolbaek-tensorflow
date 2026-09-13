@@ -2,6 +2,22 @@
    ★ 브랜드 디자인 토큰 — 여기 값만 바꾸면 사이트 전체 톤이 바뀝니다
    (예: RE:STITCH → --bg:#F7F4EE; --ink:#111; --accent:#0E5A5A;)
    ========================================================== */
+/* 브랜드 전체에서 사용하는 북 명조 글꼴 */
+@font-face {
+  font-family: "Bookk Myungjo Light";
+  src: url("fonts/BookkMyungjo_Light.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Bookk Myungjo Bold";
+  src: url("fonts/BookkMyungjo_Bold.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* [작성서 03] 설백 공식 팔레트 — 색 변경은 이곳에서만 합니다. */
   --snow: #FAF9F6;       /* 따뜻한 백색 */
@@ -18,10 +34,14 @@
   --line: color-mix(in srgb, var(--ink) 20%, transparent);
   --about-divider: rgba(51, 50, 70, 0.2);
   --veil: color-mix(in srgb, var(--white) 68%, transparent);
+  /* 햇살과 오간자 전용 색상: 배경의 온도와 주름 대비를 조절합니다. */
+  --organza-light: #fffdf4;
+  --organza-sun: #eddbb9;
+  --organza-shade: #b8ad9b;
   --shadow: color-mix(in srgb, var(--ink) 18%, transparent);
 
-  --font-main: "Pretendard", -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
-  --font-display: "Iropke Batang", "KoPub Batang", "Noto Serif KR", serif;
+  --font-main: "Bookk Myungjo Light", serif;
+  --font-display: "Bookk Myungjo Bold", serif;
   --radius: 0;
   --maxw: 1180px;
   --space-xs: 8px;
@@ -420,11 +440,31 @@ body { overflow-x: hidden; background: var(--bg); }
 .nav-menu { z-index: 5; grid-column: 1 / -1; }
 
 .organza-intro { --pointer-x: 0; --pointer-y: 0; position: relative; min-height: calc(100svh - 70px); overflow: hidden; background: var(--snow); isolation: isolate; }
-.sun-wash { position: absolute; z-index: -4; inset: 0; background: radial-gradient(circle at 68% 24%, var(--white), color-mix(in srgb, var(--snow) 68%, var(--white)) 32%, var(--snow) 72%); }
-.fabric-field { position: absolute; z-index: -2; inset: -8%; pointer-events: none; }
-.fabric-field span { position: absolute; inset: 0; border-left: 1px solid var(--veil); background: linear-gradient(118deg, transparent 9%, var(--veil) 36%, color-mix(in srgb, var(--white) 28%, transparent) 51%, transparent 72%); transform: translate(calc(var(--pointer-x) * 12px), calc(var(--pointer-y) * 8px)) skewX(-7deg); transform-origin: left center; transition: transform var(--motion-slow) cubic-bezier(.22,.7,.24,1), opacity var(--motion-slow) ease; }
-.fabric-field span:nth-child(2) { background: linear-gradient(72deg, color-mix(in srgb, var(--white) 18%, transparent), var(--veil), transparent 70%); transform: translate(calc(var(--pointer-x) * -9px), calc(var(--pointer-y) * -6px)) rotate(7deg); transform-origin: right center; }
-.fabric-field span:nth-child(3) { inset: 6% -15%; border-top: 1px solid var(--veil); background: linear-gradient(165deg, transparent, color-mix(in srgb, var(--white) 46%, transparent), transparent); transform: translate(calc(var(--pointer-x) * 5px), calc(var(--pointer-y) * 4px)) rotate(-4deg); }
+/* 구도는 고정하고 원단의 부분 변형과 햇빛 밝기만 10초 주기로 반복합니다. */
+.sun-wash {
+  position: absolute; z-index: 1; inset: 0; overflow: hidden; pointer-events: none;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--snow) 68%, transparent), color-mix(in srgb, var(--snow) 26%, transparent) 52%, transparent 84%);
+}
+.sun-wash::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 91% 5%, color-mix(in srgb, var(--organza-light) 78%, var(--blue) 22%), transparent 62%);
+  animation: organza-sunlight 12s ease-in-out infinite;
+}
+.sun-wash::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--snow) 84%, transparent) 0%, color-mix(in srgb, var(--snow) 72%, transparent) 40%, color-mix(in srgb, var(--snow) 44%, transparent) 60%, color-mix(in srgb, var(--snow) 12%, transparent) 78%, transparent 90%);
+}
+.fabric-field { position: absolute; z-index: 0; inset: 0; pointer-events: none; overflow: hidden; background: var(--snow) url("images/home-organza-seolbaek.png?v=organza-5") center / cover no-repeat; }
+.organza-cloth { display: block; width: 100%; height: 100%; opacity: .98; filter: contrast(1.06) saturate(1.03); }
+@keyframes organza-sunlight {
+  0%, 100% { opacity: .10; transform: translate3d(0, 0, 0); }
+  50% { opacity: .20; transform: translate3d(-1.5%, 1%, 0); }
+}
+.organza-intro.is-motion-paused .sun-wash::before { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .sun-wash::before { animation: none; opacity: .16; }
+  .organza-moving { display: inline !important; }
+}
 .intro-wordmark { position: absolute; top: 13%; left: 20px; z-index: 1; }
 .intro-wordmark > p { color: var(--blue); font-size: 9px; letter-spacing: .2em; }
 .intro-wordmark h1 { margin-top: 12px; font-family: var(--font-main); font-size: clamp(20px, 6vw, 48px); font-weight: 550; letter-spacing: .08em; }
@@ -613,13 +653,6 @@ body { overflow-x: hidden; background: var(--bg); }
   .organza-intro.is-open .fabric-field { opacity: 0; }
 }
 
-/* 요청 반영: 조명과 원단을 분리하고 원단 가장자리만 가볍게 움직입니다. */
-.sun-wash { z-index: -3; }
-.organza-photo { position: absolute; z-index: -2; inset: 0; background: url("images/seolbaek-organza-20260910.png") center / cover no-repeat; opacity: .62; mix-blend-mode: multiply; }
-.fabric-field { z-index: -1; }
-.fabric-field span { animation: seolbaek-organza-fold 9s ease-in-out infinite alternate; transform: skewX(-7deg); }
-.fabric-field span:nth-child(2) { animation-delay: -3s; transform: rotate(7deg); }
-.fabric-field span:nth-child(3) { animation-delay: -6s; transform: rotate(-4deg); }
 .intro-subcopy { font-size: 11px; }
 .footer-icons { display: flex; justify-content: center; gap: 24px; margin-bottom: 22px; color: var(--ink); }
 .footer-icons span { display: grid; width: 28px; height: 28px; border: 1px solid currentColor; border-radius: 50%; place-items: center; font-family: var(--font-display); font-size: 18px; font-weight: 400; }
@@ -627,19 +660,95 @@ body { overflow-x: hidden; background: var(--bg); }
 .about-origin-note { padding-block: 32px var(--space-xl); border-top: 1px solid var(--about-divider); }
 .about-origin-note h2 { margin: 16px 0; font-family: var(--font-display); font-size: clamp(34px, 8vw, 68px); font-weight: 400; }
 .about-origin-note p:not(.eyebrow) { max-width: 620px; margin-top: 12px; color: var(--ink-soft); }
+.about-value-section { padding-block: 86px; border-top: 1px solid var(--about-divider); }
+.about-value-section h2 { margin: 18px 0 26px; font-family: var(--font-display); font-size: clamp(36px, 7vw, 64px); font-weight: 400; line-height: 1.18; }
+.about-value-section > p:not(.eyebrow) { max-width: 680px; margin-top: 12px; color: var(--ink-soft); }
+.about-light-section { padding-bottom: 110px; }
+
+/* 브랜드 소개 전용 편집 레이아웃: PDF의 여백·번호·가는 선을 웹 요소로 구현합니다. */
+.about-page main > section[data-section] { position: relative; }
+.about-page main > section[data-section]::before {
+  content: attr(data-section); position: absolute; top: 28px; left: max(22px, calc((100% - var(--maxw)) / 2));
+  color: var(--jade); font-size: 9px; letter-spacing: .18em; line-height: 1;
+}
+.about-page .about-opening { min-height: 72vh; padding: 20vh max(22px, calc((100% - var(--maxw)) / 2)) 14vh; border-bottom: 1px solid var(--about-divider); }
+.about-page .about-opening h1 { max-width: 780px; margin-top: 32px; font-size: clamp(48px, 7vw, 94px); line-height: 1.14; }
+.about-page .about-opening-note { max-width: 28rem; margin-top: 38px; margin-left: auto; }
+.about-page .about-origin-note { padding-top: 88px; }
+.about-page .story-steps { border-top: 1px solid var(--about-divider); padding-top: 88px; }
+.about-page .story-step { padding-right: clamp(0px, 5vw, 72px); }
+.about-page .story-step-right { border-left: 1px solid var(--about-divider); padding-left: clamp(22px, 5vw, 72px); }
+.about-page .name-origin { border-top: 1px solid var(--about-divider); }
+.about-page .name-origin > .section-wide { padding-top: 88px; }
+.about-page .name-origin-visual { margin-top: 70px; }
+.about-page .about-value-section { display: grid; grid-template-columns: minmax(180px, .7fr) minmax(0, 1.3fr); column-gap: 9vw; align-items: start; padding-top: 88px; }
+.about-page .about-value-section h2 { grid-column: 1; margin-top: 0; }
+.about-page .about-value-section > p:not(.eyebrow) { grid-column: 2; }
+.about-page .about-value-section > .eyebrow { grid-column: 1; }
+.about-page .soft-bite-section { border-top: 1px solid var(--about-divider); padding-top: 88px; }
+.about-page .about-light-section { padding-bottom: 120px; }
+.about-page .philosophy-statement { border-top: 1px solid var(--about-divider); }
+
+/* Brand Pitch의 색과 편집 리듬은 브랜드 소개 본문에만 적용합니다. */
+.about-page main { background: #F0F0ED; color: #333E46; }
+.about-page main :is(h1, h2, h3, p, blockquote) { color: #333E46; }
+.about-page main .eyebrow, .about-page main .story-index { color: #6B8C3E; }
+.about-page main a { color: #333E46; }
+.about-page main > section[data-section]::before { color: #244B76; }
+.about-page .about-origin-note, .about-page .story-steps, .about-page .name-origin, .about-page .about-core-values,
+.about-page .about-value-section, .about-page .about-palette, .about-page .soft-bite-section, .about-page .about-experience,
+.about-page .about-light-section, .about-page .philosophy-statement { background: #F0F0ED; }
+.about-page .white-origin-memory { background: rgba(107, 140, 62, .16); border-color: rgba(107, 140, 62, .5); }
+.about-page .white-origin-canvas { background: rgba(232, 67, 26, .12); border-color: rgba(232, 67, 26, .45); }
+.about-page .white-origin-marker-left { color: #6B8C3E; }
+.about-page .white-origin-marker-right { color: #E8431A; }
+.about-page .white-origin-connection span { color: #E8431A; }
+.about-page .about-core-values, .about-page .about-palette, .about-page .about-experience { border-top: 1px solid rgba(51, 62, 70, .22); padding-block: 88px; }
+.about-page .about-core-value-grid, .about-page .about-experience-grid { display: grid; gap: 0; margin-top: 52px; }
+.about-page .about-core-value-grid article, .about-page .about-experience-grid article { padding: 0 28px 0 0; border-right: 1px solid rgba(51, 62, 70, .22); }
+.about-page .about-core-value-grid article:last-child, .about-page .about-experience-grid article:last-child { border-right: 0; }
+.about-page .about-core-value-grid article > span, .about-page .about-experience-grid article > span { color: #244B76; font-size: 10px; letter-spacing: .14em; }
+.about-page .about-core-value-grid h2, .about-page .about-experience-grid h2 { margin: 18px 0 20px; font-family: var(--font-display); font-size: clamp(25px, 3vw, 38px); font-weight: 400; line-height: 1.25; }
+.about-page .about-core-value-grid p, .about-page .about-experience-grid p { max-width: 25rem; color: #333E46; font-size: 14px; }
+.about-page .about-palette h2 { margin: 18px 0 44px; font-family: var(--font-display); font-size: clamp(36px, 6vw, 64px); font-weight: 400; }
+.about-page .about-palette-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid rgba(51, 62, 70, .22); border-left: 1px solid rgba(51, 62, 70, .22); }
+.about-page .about-palette-grid article { min-width: 0; padding: 0 18px 24px; border-right: 1px solid rgba(51, 62, 70, .22); border-bottom: 1px solid rgba(51, 62, 70, .22); }
+.about-page .palette-swatch { display: block; height: 88px; margin: 0 -18px 22px; background: var(--swatch); border-bottom: 1px solid rgba(51, 62, 70, .22); }
+.about-page .about-palette-grid article:nth-child(2) .palette-swatch { border-bottom-color: #E8431A; }
+.about-page .about-palette-grid h3 { font-family: var(--font-display); font-size: 23px; font-weight: 400; }
+.about-page .about-palette-grid h3 small { margin-left: 5px; font-size: .62em; font-weight: 400; }
+.about-page .about-palette-grid p { margin-top: 12px; font-size: 12px; line-height: 1.7; }
+.about-page .palette-note { max-width: 760px; margin-top: 28px; color: #333E46; font-size: 13px; }
+
+@media (max-width: 719px) {
+  .about-page main > section[data-section]::before { top: 22px; left: 20px; }
+  .about-page .about-opening { min-height: 72svh; padding: 118px 20px 72px; }
+  .about-page .about-opening h1 { margin-top: 28px; font-size: clamp(42px, 12vw, 58px); }
+  .about-page .about-opening-note { margin-top: 34px; margin-left: 0; }
+  .about-page .about-origin-note, .about-page .story-steps, .about-page .name-origin > .section-wide, .about-page .soft-bite-section, .about-page .about-value-section { padding-top: 74px; }
+  .about-page .story-steps { gap: 68px; }
+  .about-page .story-step-right { border-left: 0; border-top: 1px solid var(--about-divider); padding: 68px 0 0; }
+  .about-page .about-value-section { display: block; }
+  .about-page .about-value-section h2 { margin: 18px 0 26px; }
+  .about-page .about-value-section > p:not(.eyebrow) { margin-top: 12px; }
+  .about-page .name-origin-visual { margin-top: 48px; }
+  .about-page .about-core-values, .about-page .about-palette, .about-page .about-experience { padding-block: 74px; }
+  .about-page .about-core-value-grid, .about-page .about-experience-grid { gap: 0; margin-top: 42px; }
+  .about-page .about-core-value-grid article, .about-page .about-experience-grid article { padding: 0 0 30px; border-right: 0; border-bottom: 1px solid rgba(51, 62, 70, .22); }
+  .about-page .about-core-value-grid article + article, .about-page .about-experience-grid article + article { padding-top: 30px; }
+  .about-page .about-core-value-grid article:last-child, .about-page .about-experience-grid article:last-child { border-bottom: 0; padding-bottom: 0; }
+  .about-page .about-palette h2 { margin-bottom: 34px; }
+  .about-page .about-palette-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .about-page .about-palette-grid article:last-child { grid-column: 1 / -1; }
+  .about-page .palette-swatch { height: 70px; }
+}
 .home-page .instagram-section[hidden] { display: none; }
 .category-purchase { min-height: 260px; padding: var(--space-md); background: var(--snow); }
 .category-purchase h3 { margin-top: var(--space-lg); font-family: var(--font-display); font-size: 36px; font-weight: 400; }
 .category-purchase p { margin-top: var(--space-sm); color: var(--ink-soft); font-size: 13px; }
 .category-sublinks { display: flex; gap: 10px; margin-top: 24px; }
 .category-sublinks a { min-height: 44px; padding: 12px 16px; border: 1px solid var(--ink); color: var(--ink); font-size: 12px; text-decoration: none; }
-.fabric-field span { opacity: .5; filter: none; background-image: repeating-linear-gradient(103deg, transparent 0 16%, color-mix(in srgb, var(--white) 20%, transparent) 17% 19%, transparent 20% 34%), linear-gradient(118deg, transparent 9%, var(--veil) 36%, color-mix(in srgb, var(--white) 22%, transparent) 51%, transparent 72%); animation-name: seolbaek-organza-sway; animation-duration: 11s; }
-.fabric-field span:nth-child(2) { opacity: .38; }
-.fabric-field span:nth-child(3) { opacity: .28; }
-@keyframes seolbaek-organza-sway { from { transform: skewX(-7deg) translateX(-.8%); } to { transform: skewX(-5deg) translateX(.8%); } }
 @media (min-width: 720px) { .category-purchase { min-height: 390px; padding: 34px; } }
-@keyframes seolbaek-organza-fold { from { transform: skewX(-7deg) translateX(-1%); } to { transform: skewX(-4deg) translateX(2%); } }
-@media (prefers-reduced-motion: reduce) { .fabric-field span { animation: none; } }
 
 /* 제목과 본문은 한글 단어 단위로만 흐르도록 정돈합니다. */
 body, h1, h2, h3, h4, p, li, dd { word-break: keep-all; overflow-wrap: break-word; }
@@ -671,7 +780,7 @@ p, li, dd { font-size: clamp(.95rem, 1.2vw, 1.08rem); line-height: 1.75; }
 @media (min-width: 720px) { .craft-copy { padding-inline: 0; } .craft-copy h2 { font-size: clamp(2.7rem, 4.5vw, 3.6rem); } }
 
 /* 컬렉션 버튼만 클릭 영역으로 사용합니다. */
-.organza-open { inset: auto 20px 24px auto; width: auto; height: auto; min-width: 132px; min-height: 44px; padding: 10px 0; }
+.organza-open { inset: auto 20px 96px auto; width: auto; height: auto; min-width: 132px; min-height: 44px; padding: 10px 0; }
 .organza-open > span:not(.sr-only) { position: static; display: block; padding: 0 0 8px; border-bottom: 1px solid var(--ink); }
 @media (min-width: 720px) { .organza-open { right: 5vw; bottom: 28px; } }
 
@@ -706,12 +815,65 @@ p, li, dd { font-size: clamp(.95rem, 1.2vw, 1.08rem); line-height: 1.75; }
 .cart-page .cart-head h1 { font-size: clamp(24px, 6vw, 38px); line-height: 1.15; }
 .cart-page .cart-content { flex: 1; display: flex; flex-direction: column; }
 .cart-page .cart-empty { flex: 1; min-height: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 0; }
-/* 오간자 레이어만 아주 느리고 작게 왕복합니다. */
-.fabric-field span { animation: seolbaek-organza-breeze 12s ease-in-out infinite alternate; }
-.fabric-field span:nth-child(2) { animation-delay: -4s; }
-.fabric-field span:nth-child(3) { animation-delay: -8s; }
-@keyframes seolbaek-organza-breeze { from { transform: translateX(-4px) rotate(-.2deg); } to { transform: translateX(4px) rotate(.2deg); } }
-@media (prefers-reduced-motion: reduce) { .fabric-field span { animation: none !important; } }
+
+
+/* WHY JUNGCHON 편집면: 참고 시안처럼 왼쪽 본문과 오른쪽 두 패널을 나눕니다. */
+.about-page #soft-bite.soft-bite-section { grid-template-columns: minmax(0, 1.08fr) minmax(320px, .92fr); gap: 7vw; align-items: start; }
+.about-page .soft-bite-editorial { min-width: 0; }
+.about-page .soft-bite-kicker { margin-top: 46px; color: #E8431A; font-size: 10px; letter-spacing: .28em; }
+.about-page .soft-bite-editorial h2 { margin: 12px 0 52px; font-family: var(--font-display); font-size: clamp(48px, 6vw, 78px); font-weight: 400; line-height: 1.12; }
+.about-page .soft-bite-editorial > p:not(.eyebrow):not(.soft-bite-kicker) { max-width: 38rem; color: #333E46; font-size: 15px; line-height: 1.95; }
+.about-page .soft-bite-callout { margin-top: 46px; padding: 8px 0 8px 20px; border-left: 2px solid #E8431A; }
+.about-page .soft-bite-panels { display: grid; gap: 22px; padding-top: 70px; }
+.about-page .soft-bite-panel { padding: 30px; border: 1px solid rgba(51, 62, 70, .18); background: rgba(255, 255, 255, .12); }
+.about-page .soft-bite-panel-title { color: #333E46 !important; font-size: 10px !important; letter-spacing: .28em; }
+.about-page .soft-bite-panel > div { display: grid; grid-template-columns: 1fr 1fr; margin-top: 28px; }
+.about-page .soft-bite-panel dl + dl { padding-left: 22px; border-left: 1px solid rgba(51, 62, 70, .14); }
+.about-page .soft-bite-panel dt { color: #E8431A; font-size: 11px; letter-spacing: .14em; }
+.about-page .soft-bite-panel dd { margin-top: 12px; color: #333E46; font-size: 13px; line-height: 1.8; }
+.about-page .soft-bite-panel:last-child > p:last-child { margin-top: 24px; color: #333E46; font-size: 13px; line-height: 2; }
+@media (max-width: 719px) {
+  .about-page #soft-bite.soft-bite-section { grid-template-columns: 1fr; gap: 0; }
+  .about-page .soft-bite-kicker { margin-top: 34px; }
+  .about-page .soft-bite-editorial h2 { margin-bottom: 34px; font-size: 48px; }
+  .about-page .soft-bite-editorial > p:not(.eyebrow):not(.soft-bite-kicker) { font-size: 14px; }
+  .about-page .soft-bite-callout { margin-top: 34px; }
+  .about-page .soft-bite-panels { padding-top: 50px; }
+  .about-page .soft-bite-panel { padding: 24px 20px; }
+}
+
+/* 홈 로고 제목도 공통 브랜드 글꼴을 사용합니다. */
+.intro-wordmark h1#intro-title { font-family: var(--font-display); }
+
+/* Brand Pitch 6페이지 마무리 패널: 본문 전용 오렌지 바탕과 세 칼럼 */
+.about-page .about-pitch-end { min-height: min(100svh, 920px); padding: 100px max(22px, calc((100% - var(--maxw)) / 2)) 58px; background: #E8431A; color: #F0F0ED; }
+.about-page .about-pitch-end::before { color: #F0F0ED; }
+.about-page .about-pitch-end :is(h2, p) { color: #F0F0ED; }
+.about-page .about-pitch-kicker { font-size: 10px; letter-spacing: .28em; }
+.about-page .about-pitch-flow { margin-top: 74px; font-family: var(--font-display); font-size: clamp(20px, 2.5vw, 30px); letter-spacing: .18em; white-space: nowrap; }
+.about-page .about-pitch-flow span { padding-inline: .55em; }
+.about-page .about-pitch-columns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4vw; margin-top: 78px; }
+.about-page .about-pitch-columns article { padding-top: 32px; border-top: 1px solid rgba(240, 240, 237, .58); }
+.about-page .about-pitch-label { font-size: 10px; letter-spacing: .28em; }
+.about-page .about-pitch-columns article > p:last-child { max-width: 25rem; margin-top: 26px; font-family: var(--font-display); font-size: 15px; line-height: 2.05; }
+.about-page .about-pitch-signoff { margin-top: clamp(150px, 24vh, 280px); padding-top: 52px; border-top: 1px solid rgba(240, 240, 237, .58); }
+.about-page .about-pitch-signoff h2 { font-family: var(--font-display); font-size: clamp(36px, 5.5vw, 62px); font-weight: 400; line-height: 1.35; }
+.about-page .about-pitch-signoff p { margin-top: 38px; font-size: 10px; letter-spacing: .2em; }
+.about-page .philosophy-statement .btn { color: #FFFFFF; }
+.about-page .about-value-section h2 { font-size: clamp(34px, 4vw, 48px); white-space: nowrap; }
+@media (max-width: 719px) {
+  .about-page .about-pitch-end { min-height: auto; padding: 82px 20px 48px; }
+  .about-page .about-pitch-flow { margin-top: 52px; font-size: 17px; letter-spacing: .08em; white-space: normal; line-height: 2; }
+  .about-page .about-pitch-flow span { padding-inline: .25em; }
+  .about-page .about-pitch-columns { grid-template-columns: 1fr; gap: 0; margin-top: 46px; }
+  .about-page .about-pitch-columns article { padding: 24px 0 30px; }
+  .about-page .about-pitch-columns article > p:last-child { margin-top: 16px; font-size: 14px; line-height: 1.9; }
+  .about-page .about-pitch-signoff { margin-top: 76px; padding-top: 34px; }
+  .about-page .about-pitch-signoff h2 { font-size: 34px; }
+  .about-page .about-pitch-signoff p { margin-top: 24px; font-size: 9px; line-height: 2; letter-spacing: .1em; }
+  .about-page .about-value-section h2 { font-size: 34px; }
+}
+
 
 /* 백의민족과 흰 캔버스 섹션은 베이지 흐름을 유지합니다. */
 .origin-teaser { background: var(--snow); color: var(--ink); }
