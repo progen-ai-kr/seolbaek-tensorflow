@@ -721,6 +721,13 @@ body { overflow-x: hidden; background: var(--bg); }
 .about-page .palette-note { max-width: 760px; margin-top: 28px; color: #333E46; font-size: 13px; }
 
 @media (max-width: 719px) {
+  .section, .section-wide { width: 100%; max-width: 100%; box-sizing: border-box; padding-inline: 20px; }
+  .about-page main h1, .about-page main h2, .about-page main h3 { max-width: 100%; white-space: normal; overflow-wrap: anywhere; word-break: keep-all; }
+  .about-page main p, .about-page main li, .about-page main dd { max-width: 100%; overflow-wrap: anywhere; }
+  .intro-wordmark h1#intro-title { max-width: calc(100vw - 40px); flex-wrap: wrap; gap: .12em; font-size: clamp(2.8rem, 16vw, 4.2rem); line-height: 1.08; }
+  .intro-subcopy { max-width: calc(100vw - 40px); }
+  .about-page .about-value-section h2 { white-space: normal; }
+  .about-page .about-pitch-flow { overflow-wrap: anywhere; }
   .about-page main > section[data-section]::before { top: 22px; left: 20px; }
   .about-page .about-opening { min-height: 72svh; padding: 118px 20px 72px; }
   .about-page .about-opening h1 { margin-top: 28px; font-size: clamp(42px, 12vw, 58px); }
