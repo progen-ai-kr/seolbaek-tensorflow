@@ -1,5 +1,4 @@
-/* ==========================================================
-   ★ 브랜드 디자인 토큰 — 여기 값만 바꾸면 사이트 전체 톤이 바뀝니다
+/* ===================================================   ★ 브랜드 디자인 토큰 — 여기 값만 바꾸면 사이트 전체 톤이 바뀝니다
    (예: RE:STITCH → --bg:#F7F4EE; --ink:#111; --accent:#0E5A5A;)
    ========================================================== */
 /* 브랜드 전체에서 사용하는 북 명조 글꼴 */
@@ -267,8 +266,7 @@ a { color: inherit; }
   .product-carousel-track { transition: none; }
 }
 
-/* ==========================================================
-   설백 2026 — 한지의 여백, 오간자의 층, 재봉의 가는 선
+/* ===================================================   설백 2026 — 한지의 여백, 오간자의 층, 재봉의 가는 선
    ========================================================== */
 body { overflow-x: hidden; background: var(--bg); }
 .section-wide { width: min(calc(100% - 40px), var(--maxw)); margin-inline: auto; }
@@ -418,8 +416,7 @@ body { overflow-x: hidden; background: var(--bg); }
   .hero-reveal, .reveal-on-scroll { opacity: 1; transform: none; transition: none; }
 }
 
-/* ==========================================================
-   설백 공개 사이트 개선안 — 기존 관리자·데이터 구조를 유지한 UI 레이어
+/* ===================================================   설백 공개 사이트 개선안 — 기존 관리자·데이터 구조를 유지한 UI 레이어
    ========================================================== */
 .sr-only { position: absolute; overflow: hidden; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; clip: rect(0 0 0 0); white-space: nowrap; }
 :focus-visible { outline: 2px solid var(--vermilion); outline-offset: 4px; }
