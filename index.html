@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -9,7 +9,7 @@
   <meta property="og:description" content="설백의 팔레트 위 현대의 우리를 담다" />
   <!-- 정식 제품·브랜드 이미지 제공 후 og:image를 추가하세요. -->
   <meta property="og:type" content="website" />
-    <link rel="stylesheet" href="style.css?v=organza-breeze-12" />
+    <link rel="stylesheet" href="style.css?v=organza-breeze-17" />
 </head>
 <body class="home-page" data-page="home">
   <header class="nav">
@@ -63,7 +63,7 @@
         <h1 id="intro-title">설백<small>雪白</small></h1>
       </div>
       <button class="organza-open" type="button" data-organza-open aria-expanded="false">
-        <span class="sr-only" data-i18n="intro.open">원단을 열어 제품 보기</span><span aria-hidden="true">컬렉션 보기</span>
+        <span class="sr-only" data-i18n="intro.open">원단을 열어 제품 보기</span><span aria-hidden="true" data-i18n="intro.collectionButton">컬렉션 보기</span>
       </button>
       <div class="intro-subcopy">
         <p data-i18n="intro.main">설백의 팔레트 위 현대의 우리를 담다</p>
@@ -85,7 +85,7 @@
     <section class="category-section section-wide" aria-labelledby="category-title">
       <div class="editorial-heading reveal-on-scroll"><p class="eyebrow">SHOP BY CATEGORY</p><h2 id="category-title" data-i18n="home.categoryTitle">입는 방식에 따라</h2></div>
       <div class="category-grid">
-        <div class="category-purchase"><span>01</span><h3>구매</h3><p>의상과 장신구를 선택해 보세요.</p><div class="category-sublinks"><a href="products.html?category=clothing">의상</a><a href="products.html?category=accessories">장신구</a></div></div>
+        <div class="category-purchase"><span>01</span><h3 data-i18n="category.purchase">구매</h3><p data-i18n="category.purchaseBody">의상과 장신구를 선택해 보세요.</p><div class="category-sublinks"><a href="products.html?category=clothing" data-i18n="category.clothing">의상</a><a href="products.html?category=accessories" data-i18n="category.accessories">장신구</a></div></div>
         <a href="products.html?category=rental"><span>02</span><h3 data-i18n="category.rental">대여</h3><p data-i18n="category.rentalBody">착용 일정과 조건은 문의를 통해 확인합니다.</p></a>
         <div class="category-photo-area"><img src="images/category-rental-editorial.png" alt="오간자 원단의 부드러운 주름" /></div>
       </div>
@@ -114,7 +114,7 @@
     <p class="footer-wordmark">SEOLBAEK · 雪白 <span>설백</span></p><p class="footer-line">SEASON 01 / 2026</p><p class="biz" data-i18n="footer.pending">사업자 정보와 공식 연락처는 브랜드 담당자 확인 후 표기됩니다.</p><p>© 2026 SEOLBAEK. All rights reserved.</p>
   </footer>
 
-  <script src="script.js?v=season-looks-20260913"></script>
+  <script src="script.js?v=i18n-13"></script>
   <script src="catalog.js?v=20260826-rich-editor-1"></script><script src="cart.js"></script>
   <script>
     // 운영 제품 필드는 바꾸지 않고 관리자가 공개한 대표 제품만 표시합니다.
@@ -231,7 +231,7 @@
     }
     previous = now;
 
-    const strength = window.innerWidth < 720 ? 80 : 140;
+    const strength = window.innerWidth < 720 ? 100 : 180;
     const wave = Math.sin(elapsed * Math.PI * 2 / 10000);
     displacement.setAttribute('scale', (strength * wave).toFixed(2));
 
@@ -243,3 +243,7 @@
 </script>
 </body>
 </html>
+
+
+
+

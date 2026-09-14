@@ -721,6 +721,15 @@ body { overflow-x: hidden; background: var(--bg); }
 .about-page .palette-note { max-width: 760px; margin-top: 28px; color: #333E46; font-size: 13px; }
 
 @media (max-width: 719px) {
+  body { font-size: 14px; }
+  h1 { font-size: clamp(2rem, 9vw, 3rem); }
+  h2 { font-size: clamp(1.75rem, 8vw, 2.6rem); }
+  h3 { font-size: clamp(1.35rem, 6vw, 2rem); }
+  p, li, dd { font-size: .9rem; line-height: 1.7; }
+  .intro-wordmark h1#intro-title { font-size: clamp(2.5rem, 14vw, 3.8rem); }
+  .about-page .about-opening h1 { font-size: clamp(2.25rem, 10vw, 3.2rem); }
+  .about-page .about-value-section h2 { font-size: clamp(2rem, 9vw, 2.8rem); }
+  .about-page .about-pitch-signoff h2 { font-size: clamp(1.9rem, 8vw, 2.6rem); }
   .section, .section-wide { width: 100%; max-width: 100%; box-sizing: border-box; padding-inline: 20px; }
   .about-page main h1, .about-page main h2, .about-page main h3 { max-width: 100%; white-space: normal; overflow-wrap: anywhere; word-break: keep-all; }
   .about-page main p, .about-page main li, .about-page main dd { max-width: 100%; overflow-wrap: anywhere; }
@@ -750,6 +759,19 @@ body { overflow-x: hidden; background: var(--bg); }
   .about-page .palette-swatch { height: 70px; }
 }
 .home-page .instagram-section[hidden] { display: none; }
+
+/* 메인 홈 모바일 전용 비율 보정 */
+@media (max-width: 767px) {
+  .home-page .organza-intro { min-height: calc(100svh - 56px); }
+  .home-page .fabric-field, .home-page .organza-cloth { width: 100%; height: 100%; }
+  .home-page .intro-wordmark { top: 12%; left: 20px; right: 20px; }
+  .home-page .intro-wordmark h1#intro-title { display: flex; align-items: baseline; flex-wrap: nowrap; gap: .18em; max-width: 100%; font-size: clamp(40px, 11vw, 64px) !important; line-height: 1.08; letter-spacing: .03em; white-space: nowrap; }
+  .home-page .intro-wordmark h1#intro-title small { flex: 0 0 auto; font-size: clamp(24px, 7vw, 36px); letter-spacing: .04em; }
+  .home-page .intro-subcopy { left: 20px; right: 20px; bottom: calc(20px + env(safe-area-inset-bottom)); max-width: none; font-size: clamp(12px, 3.4vw, 14px); line-height: 1.6; }
+  .home-page .intro-subcopy p { font-size: 10px; line-height: 1.6; }
+  .home-page .organza-open { right: 20px; bottom: calc(20px + env(safe-area-inset-bottom)); min-width: 104px; min-height: 44px; padding: 8px 0; }
+  .home-page .organza-open > span:not(.sr-only) { padding-bottom: 5px; font-size: 8px; letter-spacing: .12em; }
+}
 .category-purchase { min-height: 260px; padding: var(--space-md); background: var(--snow); }
 .category-purchase h3 { margin-top: var(--space-lg); font-family: var(--font-display); font-size: 36px; font-weight: 400; }
 .category-purchase p { margin-top: var(--space-sm); color: var(--ink-soft); font-size: 13px; }
@@ -888,6 +910,25 @@ p, li, dd { font-size: clamp(.95rem, 1.2vw, 1.08rem); line-height: 1.75; }
 .origin-teaser .origin-copy { color: var(--ink); }
 .inquiry-banner h2 { font-size: 35pt; line-height: 1.25; word-break: keep-all; white-space: nowrap; }
 @media (max-width: 719px) { .inquiry-banner h2 { font-size: 20pt; white-space: normal; } }
+
+/* 모바일 화면에서는 제목과 본문을 한 단계 작게 조정합니다. */
+@media (max-width: 719px) {
+  .intro-wordmark h1#intro-title { font-size: clamp(2.2rem, 12vw, 3.2rem) !important; }
+  .about-page .about-opening h1 { font-size: clamp(2rem, 9vw, 2.8rem) !important; }
+  .about-page .about-value-section h2 { font-size: clamp(1.8rem, 8vw, 2.4rem) !important; }
+  .about-page .about-pitch-signoff h2 { font-size: clamp(1.7rem, 7vw, 2.2rem) !important; }
+  .lookbook-card h3, .category-purchase h3 { font-size: clamp(1.2rem, 5.5vw, 1.7rem); }
+  .product-rich-text, .portfolio-content { font-size: .86rem; line-height: 1.68; }
+  .nav-inner { min-height: 56px; padding: 8px 16px; }
+  .logo { font-size: 16px; letter-spacing: 1.5px; }
+  .nav-toggle { width: 44px; height: 44px; padding: 0; font-size: 22px; display: inline-grid; place-items: center; }
+  .language-switch { gap: 2px; font-size: 8px; }
+  .language-switch button { min-width: 32px; min-height: 44px; }
+  .nav-menu { padding: 4px 16px 12px; }
+  .nav-menu a { min-height: 44px; padding: 10px 0; font-size: 14px; display: flex; align-items: center; }
+  .btn { min-height: 44px; padding: 11px 20px; font-size: 13px; }
+  .line-link { min-height: 44px; display: inline-flex; align-items: center; }
+}
 
 /* 홈에서는 기존 섹션의 좌우 여백을 사용하고 제품 목록과 간격을 둡니다. */
 .home-collection-head { position: relative; padding-inline: 0; margin-bottom: var(--space-lg); border-bottom: 0; }
