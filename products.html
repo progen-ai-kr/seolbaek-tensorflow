@@ -10,7 +10,7 @@
 <body class="products-page" data-page="products">
   <header class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="logo" aria-label="설백 홈"><span class="logo-latin">SEOLBAEK · 雪白</span><span class="logo-korean">설백</span></a>
+      <a href="index.html" class="logo" aria-label="설백 홈"><span class="logo-latin">SEOLBAEK <img class="logo-hanja-image" src="images/logo-hanja-1.png" alt="&#x96EA;&#x767D;" /></span></a>
       <button class="nav-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
       <nav class="nav-menu" aria-label="주요 메뉴">
         <a href="index.html" data-i18n="nav.home">홈</a><a href="products.html" class="active" data-i18n="nav.collection">제품</a><a href="portfolio.html" data-i18n="nav.portfolio" data-i18n-ko="포트폴리오">포트폴리오</a><a href="about.html" data-i18n="nav.about">브랜드 소개</a><a href="contact.html" data-i18n="nav.contact">문의</a><a href="cart.html" class="cart-nav-link" data-cart-link aria-label="장바구니 0"><span data-i18n="cart.label" data-i18n-ko="장바구니">장바구니</span> <span data-cart-count>0</span></a>
@@ -27,17 +27,23 @@
 
     <section class="section collection-catalog">
       <div class="collection-rule"><span>2026 COLLECTION</span><span>SEOLBAEK · 雪白</span></div>
-      <div class="catalog-filters" role="group" aria-label="제품 카테고리">
-        <button type="button" class="active" data-mode="purchase" aria-pressed="true" data-i18n="category.purchase" data-i18n-ko="&#44396;&#47588;">&#44396;&#47588;</button>
-        <button type="button" data-mode="rental" aria-pressed="false" data-i18n="category.rental">대여</button>
-      </div>
-      <div class="catalog-subfilters" role="group" aria-label="구매 카테고리">
-        <button type="button" class="active" data-category="clothing" aria-pressed="true" data-i18n="category.clothing">의상</button>
-        <button type="button" data-category="accessories" aria-pressed="false" data-i18n="category.accessories">장신구</button>
+      <div class="catalog-filters" role="group" aria-label="&#51228;&#54408; &#52852;&#53580;&#44256;&#47532;">
+        <button type="button" class="active" data-mode="clothing" aria-pressed="true" data-i18n="category.clothing" data-i18n-ko="&#51032;&#49345;">&#51032;&#49345;</button>
+        <button type="button" data-mode="accessories" aria-pressed="false" data-i18n="category.accessories" data-i18n-ko="&#51109;&#49888;&#44396;">&#51109;&#49888;&#44396;</button>
       </div>
       <!-- 제품 데이터는 products.json에서만 자동으로 불러옵니다. -->
       <div class="lookbook-grid catalog-grid" id="product-list" aria-live="polite"></div>
     </section>
+
+    <section class="category-section section-wide" aria-labelledby="category-title">
+      <div class="editorial-heading reveal-on-scroll"><p class="eyebrow">SHOP BY CATEGORY</p><h2 id="category-title" data-i18n="home.categoryTitle">입는 방식에 따라</h2></div>
+      <div class="category-grid">
+        <div class="category-purchase"><span>01</span><h3 data-i18n="category.purchase">구매</h3><p data-i18n="category.purchaseBody">의상과 장신구를 선택해 보세요.</p><div class="category-sublinks"><a href="products.html?category=clothing" data-i18n="category.clothing">의상</a><a href="products.html?category=accessories" data-i18n="category.accessories">장신구</a></div></div>
+        <a href="products.html?category=rental"><span>02</span><h3 data-i18n="category.rental">대여</h3><p data-i18n="category.rentalBody">착용 일정과 조건은 문의를 통해 확인합니다.</p></a>
+        <div class="category-photo-area"><img src="images/category-rental-editorial.png" alt="오간자 원단의 부드러운 주름" /></div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="footer">
@@ -73,9 +79,9 @@
     function selectCategory(category, updateUrl = true) {
       selectedCategory = ["clothing", "accessories", "rental"].includes(category) ? category : "clothing";
       const rental = selectedCategory === "rental";
-      document.querySelector(".catalog-subfilters").hidden = rental;
+
       document.querySelectorAll("[data-mode], [data-category]").forEach((item) => {
-        const active = item.dataset.mode ? item.dataset.mode === (rental ? "rental" : "purchase") : item.dataset.category === selectedCategory;
+        const active = item.dataset.mode ? item.dataset.mode === selectedCategory : item.dataset.category === selectedCategory;
         item.classList.toggle("active", active);
         item.setAttribute("aria-pressed", String(active));
       });
@@ -87,7 +93,7 @@
       renderCategory(selectedCategory);
     }
     document.querySelectorAll("[data-category]").forEach((button) => button.addEventListener("click", () => selectCategory(button.dataset.category)));
-    document.querySelectorAll("[data-mode]").forEach((button) => button.addEventListener("click", () => selectCategory(button.dataset.mode === "rental" ? "rental" : "clothing")));
+    document.querySelectorAll("[data-mode]").forEach((button) => button.addEventListener("click", () => selectCategory(button.dataset.mode)));
     ProductCatalog.loadVisibleProducts().then((products) => {
       catalogProducts = window.SeolbaekProductPresets.apply(products);
       selectCategory(new URLSearchParams(location.search).get("category"), false);

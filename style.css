@@ -426,6 +426,9 @@ body { overflow-x: hidden; background: var(--bg); }
 .nav-inner { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: var(--space-sm); min-height: 70px; padding: 10px 20px; }
 .nav .logo { display: flex; min-width: 0; flex-direction: column; color: var(--ink); font-weight: 500; line-height: 1.1; }
 .logo-latin { overflow: hidden; font-family: var(--font-main); font-size: 11px; font-weight: 650; letter-spacing: .12em; text-overflow: ellipsis; white-space: nowrap; }
+.logo-latin { display: inline-flex; align-items: center; gap: 6px; }
+.logo-hanja-image { width: 24px; height: 24px; margin-left: 6px; object-fit: contain; vertical-align: middle; }
+.logo-latin .logo-hanja-image { display: block; flex: 0 0 auto; }
 .logo-korean { margin-top: 5px; font-family: var(--font-display); font-size: 15px; letter-spacing: .14em; }
 .nav-toggle { order: 3; font-size: 21px; }
 .language-switch { order: 2; display: flex; align-items: center; gap: 5px; color: var(--ink-soft); font-size: 9px; letter-spacing: .08em; }
@@ -872,7 +875,7 @@ p, li, dd { font-size: clamp(.95rem, 1.2vw, 1.08rem); line-height: 1.75; }
 .intro-wordmark h1#intro-title { font-family: var(--font-display); }
 
 /* Brand Pitch 6페이지 마무리 패널: 본문 전용 오렌지 바탕과 세 칼럼 */
-.about-page .about-pitch-end { min-height: min(100svh, 920px); padding: 100px max(22px, calc((100% - var(--maxw)) / 2)) 58px; background: #E8431A; color: #F0F0ED; }
+.about-page .about-pitch-end { min-height: min(100svh, 920px); padding: 100px max(22px, calc((100% - var(--maxw)) / 2)) 58px; background: #6B8C3E; color: #F0F0ED; }
 .about-page .about-pitch-end::before { color: #F0F0ED; }
 .about-page .about-pitch-end :is(h2, p) { color: #F0F0ED; }
 .about-page .about-pitch-kicker { font-size: 10px; letter-spacing: .28em; }

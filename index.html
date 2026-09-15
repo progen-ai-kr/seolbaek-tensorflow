@@ -15,7 +15,7 @@
   <header class="nav">
     <div class="nav-inner">
       <a href="index.html" class="logo" aria-label="설백 홈">
-        <span class="logo-latin">SEOLBAEK · 雪白</span><span class="logo-korean">설백</span>
+        <span class="logo-latin">SEOLBAEK <img class="logo-hanja-image" src="images/logo-hanja-1.png" alt="&#x96EA;&#x767D;" /></span>
       </a>
       <button class="nav-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
       <nav class="nav-menu" aria-label="주요 메뉴">
@@ -114,7 +114,7 @@
     <p class="footer-wordmark">SEOLBAEK · 雪白 <span>설백</span></p><p class="footer-line">SEASON 01 / 2026</p><p class="biz" data-i18n="footer.pending">사업자 정보와 공식 연락처는 브랜드 담당자 확인 후 표기됩니다.</p><p>© 2026 SEOLBAEK. All rights reserved.</p>
   </footer>
 
-  <script src="script.js?v=i18n-13"></script>
+  <script src="script.js?v=i18n-17"></script>
   <script src="catalog.js?v=20260826-rich-editor-1"></script><script src="cart.js"></script>
   <script>
     // 운영 제품 필드는 바꾸지 않고 관리자가 공개한 대표 제품만 표시합니다.
@@ -133,6 +133,12 @@
   const picture = svg?.querySelector(':scope > image');
   const defs = svg?.querySelector('defs');
   if (!picture || !defs) return;
+
+  // ?????? ?? ??? ??? ???? ?? ??? ????.
+  const mobileFrame = window.matchMedia('(max-width: 767px)');
+  const fitOrganzaFrame = () => svg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+  fitOrganzaFrame();
+  mobileFrame.addEventListener?.('change', fitOrganzaFrame);
 
   const ns = 'http://www.w3.org/2000/svg';
   const make = (name, attrs) => {
@@ -231,7 +237,7 @@
     }
     previous = now;
 
-    const strength = window.innerWidth < 720 ? 100 : 180;
+    const strength = window.innerWidth < 720 ? 350 : 220;
     const wave = Math.sin(elapsed * Math.PI * 2 / 10000);
     displacement.setAttribute('scale', (strength * wave).toFixed(2));
 
