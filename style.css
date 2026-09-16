@@ -668,9 +668,12 @@ body { overflow-x: hidden; background: var(--bg); }
 /* 브랜드 소개 전용 편집 레이아웃: PDF의 여백·번호·가는 선을 웹 요소로 구현합니다. */
 .about-page main > section[data-section] { position: relative; }
 .about-page main > section[data-section]::before {
-  content: attr(data-section); position: absolute; top: 28px; left: max(22px, calc((100% - var(--maxw)) / 2));
-  color: var(--jade); font-size: 9px; letter-spacing: .18em; line-height: 1;
+  content: attr(data-section); position: absolute; top: 28px; left: 20px;
+  color: var(--jade); display: block; width: 3ch; font-size: 15px; font-variant-numeric: tabular-nums; letter-spacing: .08em; line-height: 1; text-align: left;
 }
+.about-page main > section.section-wide[data-section]::before { left: 0; }
+.about-page main > section[data-section="01"]::before, .about-page main > section[data-section="11"]::before, .about-page main > section[data-section="12"]::before { display: none; }
+.about-page main > section.about-opening[data-section]::before, .about-page main > section.name-origin[data-section]::before, .about-page main > section.about-pitch-end[data-section]::before, .about-page main > section.philosophy-statement[data-section]::before { left: 20px; }
 .about-page .about-opening { min-height: 72vh; padding: 20vh max(22px, calc((100% - var(--maxw)) / 2)) 14vh; border-bottom: 1px solid var(--about-divider); }
 .about-page .about-opening h1 { max-width: 780px; margin-top: 32px; font-size: clamp(48px, 7vw, 94px); line-height: 1.14; }
 .about-page .about-opening-note { max-width: 28rem; margin-top: 38px; margin-left: auto; }
@@ -946,3 +949,7 @@ p, li, dd { font-size: clamp(.95rem, 1.2vw, 1.08rem); line-height: 1.75; }
   .products-page .collection-head > div:first-child { grid-area: 2 / 1; align-self: center; height: 0; display: flex; align-items: center; }
   .products-page .collection-head > div:last-child { grid-area: 2 / 2; }
 }
+
+.about-page main > section[data-section="05"]::before { left: 20px !important; }
+.about-page main > section[data-section="05"] { border-top: 1px solid var(--about-divider); }
+.about-page main > section[data-section] + section[data-section] { border-top: 1px solid var(--about-divider); }
