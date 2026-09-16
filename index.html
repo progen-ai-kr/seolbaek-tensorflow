@@ -118,14 +118,19 @@
   <script src="catalog.js?v=20260826-rich-editor-1"></script><script src="cart.js"></script>
   <script>
     // 운영 제품 필드는 바꾸지 않고 관리자가 공개한 대표 제품만 표시합니다.
-    ProductCatalog.loadVisibleProducts().then((products) => {
-      products = window.SeolbaekProductPresets.apply(products);
-      const featured = products.filter((product) => product.featured);
-      const homeProducts = (featured.length ? featured : products).slice(0, 4);
+    let homeProducts = [];
+    function renderHomeProducts() {
+      const featured = homeProducts.filter((product) => product.featured);
+      const items = (featured.length ? featured : homeProducts).slice(0, 4);
       const box = document.getElementById("home-looks");
-      box.innerHTML = window.SeolbaekUI.renderProductSlots(homeProducts, 4, { compact: true });
+      box.innerHTML = window.SeolbaekUI.renderProductSlots(items, 4, { compact: true });
       window.SeolbaekReveal && window.SeolbaekReveal();
+    }
+    ProductCatalog.loadVisibleProducts().then((products) => {
+      homeProducts = window.SeolbaekProductPresets.apply(products);
+      renderHomeProducts();
     }).catch(() => { document.getElementById("home-looks").innerHTML = window.SeolbaekUI.catalogMessage("loadError"); });
+    window.addEventListener("seolbaek:language", renderHomeProducts);
   </script>
 <script>
 (() => {
