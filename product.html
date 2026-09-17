@@ -158,6 +158,11 @@
       const parsed = parseProductSpecs(product);
       const isEnglish = document.documentElement.lang === "en";
       const pending = isEnglish ? "Information pending" : "정보 준비 중";
+      if (isEnglish) {
+        const valueMap = { "준비 중": "Information pending", "오간자": "Organza", "구매": "Purchase", "대여": "Rental", "코르셋 또는 지퍼 조절": "Adjustable corset or zipper", "44/55 방향": "Fits sizes 44–55", "옆쪽 연두색 디테일": "Light green side detail" };
+        Object.keys(parsed.values).forEach((key) => { parsed.values[key] = valueMap[parsed.values[key]] || parsed.values[key]; });
+        parsed.otherKeywords.splice(0, parsed.otherKeywords.length, ...parsed.otherKeywords.map((keyword) => valueMap[keyword] || String(keyword).replace("원단 디테일:", "Fabric detail:").replace("유등천 물결 표현", "Yudeungcheon wave motif").replace("둥근 컷과 주름 꽃잎", "Rounded cut and pleated petals").replace("위빙 처리와 살랑거리는 원단", "Woven finish and flowing fabric").replace("소재:", "Material:").replace("사이즈:", "Size:").replace("구매·대여:", "Purchase / rental:")));
+      }
       const labels = isEnglish
         ? { price: "Price", color: "Color", material: "Material", size: "Size", construction: "Construction", motif: "Design motif", availability: "Purchase / Rental", care: "Care" }
         : { price: "가격", color: "색상", material: "소재", size: "사이즈", construction: "제작 방식", motif: "디자인 모티브", availability: "구매·대여", care: "관리 방법" };
@@ -289,15 +294,21 @@
     let loadedProduct = null;
     function renderProductPage(product) {
         loadedProduct = product;
+        const isEnglish = document.documentElement.lang === "en";
+        const displayName = isEnglish ? (product.nameEn || product.name) : product.name;
+        const displaySummary = isEnglish ? (product.summaryEn || product.summary || "") : (product.summary || "");
         document.documentElement.classList.toggle("product-photos-ready", window.SeolbaekUI.photosReady);
-        document.title = product.name + " — 설백 雪白";
+        document.title = displayName + " — SEOLBAEK 雪白";
         const descriptionMeta = document.querySelector('meta[name="description"]');
-        if (descriptionMeta) descriptionMeta.content = product.summary || product.name;
+        if (descriptionMeta) descriptionMeta.content = displaySummary || displayName;
 
         const esc = ProductCatalog.escapeHtml;
         const gallery = renderHeroGallery(product);
         const parsedSpecs = parseProductSpecs(product);
-        const tags = parsedSpecs.otherKeywords.map((keyword) => "<span>" + esc(keyword) + "</span>").join("");
+        const tags = parsedSpecs.otherKeywords.map((keyword) => {
+          const text = isEnglish ? String(keyword).replace("원단 디테일:", "Fabric detail:").replace("유등천 물결 표현", "Yudeungcheon wave motif").replace("둥근 컷과 주름 꽃잎", "Rounded cut and pleated petals").replace("위빙 처리와 살랑거리는 원단", "Woven finish and flowing fabric").replace("옆쪽 연두색 디테일", "Light green side detail").replace("소재:", "Material:").replace("사이즈:", "Size:").replace("구매·대여:", "Purchase / rental:") : keyword;
+          return "<span>" + esc(text) + "</span>";
+        }).join("");
         const buyLink = ProductCatalog.safeExternalUrl(product.buyLink);
         const buyNotice = String(product.buyNotice || "").trim();
         const buyButton = window.SeolbaekUI.commerceReady && buyLink
@@ -306,7 +317,7 @@
             ? '<button class="btn product-buy" type="button" data-purchase-dialog aria-haspopup="dialog">' + esc(product.buyLabel || "구매하기") + "</button>"
             : "";
         const purchaseConfirmed = /purchase|구매/i.test([product.label, product.category, ...(product.keywords || [])].join(" ")) && !/rental|대여/i.test(String(product.label || ""));
-        const cartButton = purchaseConfirmed ? '<button class="btn product-cart" type="button" data-cart-add="' + esc(product.id) + '">' + (document.documentElement.lang === "en" ? "Add to cart" : "장바구니 담기") + '</button>' : '';
+        const cartButton = '<button class="btn product-cart" type="button" data-cart-add="' + esc(product.id) + '">' + (document.documentElement.lang === "en" ? "Add to cart" : "장바구니 담기") + '</button>';
         const inquiryLabel = document.documentElement.lang === "en" ? "Purchase / rental inquiry" : "구매·대여 문의";
         const inquiryButton = '<a class="btn ghost product-inquiry" href="contact.html?product=' + encodeURIComponent(product.name) + '">' + inquiryLabel + '</a>';
 
@@ -319,7 +330,7 @@
 
         document.getElementById("product-detail").innerHTML =
           '<section class="section product-hero"><div class="product-hero-gallery">' + gallery + '</div><div class="product-info">' +
-          '<p class="k">' + esc(product.label || product.category || "SEASON 01") + "</p><h1>" + esc(product.name) + '</h1><p class="product-summary">' + esc(product.summary || "") + '</p>' +
+          '<p class="k">' + esc(product.label || product.category || "SEASON 01") + "</p><h1>" + esc(displayName) + '</h1><p class="product-summary">' + esc(displaySummary) + '</p>' +
           renderSpecs(product) + (tags ? '<div class="tags">' + tags + "</div>" : "") + '<div class="product-actions">' + buyButton + cartButton + inquiryButton + "</div></div></section>" +
           '<div class="product-story"><div class="detail-section-head section"><p class="eyebrow">DETAIL & CRAFT</p><h2>' + (document.documentElement.lang === "en" ? "Fabric, silhouette and finish" : "원단과 실루엣, 마감") + "</h2></div>" + sections + "</div>";
 
