@@ -44,7 +44,7 @@
       if (!countNode) { countNode = document.createElement("span"); countNode.dataset.cartCount = ""; link.appendChild(countNode); }
       countNode.textContent = count > 0 ? "(" + count + ")" : "";
       const text = link.querySelector("[data-i18n='cart.label']");
-      const displayLabel = document.documentElement.lang === "en" ? "BAG" : "장바구니";
+      const displayLabel = document.documentElement.lang === "en" ? "Cart" : "장바구니";
       if (text) text.textContent = displayLabel;
       link.setAttribute("aria-label", displayLabel);
     });
