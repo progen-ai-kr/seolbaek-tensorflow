@@ -701,8 +701,8 @@ body { overflow-x: hidden; background: var(--bg); }
 .about-page .about-origin-note, .about-page .story-steps, .about-page .name-origin, .about-page .about-core-values,
 .about-page .about-value-section, .about-page .about-palette, .about-page .soft-bite-section, .about-page .about-experience,
 .about-page .about-light-section, .about-page .philosophy-statement { background: #F0F0ED; }
-.about-page .white-origin-memory { background: rgba(107, 140, 62, .16); border-color: rgba(107, 140, 62, .5); }
-.about-page .white-origin-canvas { background: rgba(232, 67, 26, .12); border-color: rgba(232, 67, 26, .45); }
+.about-page .white-origin-memory { background: rgba(107, 140, 62, .08); border-color: rgba(107, 140, 62, .3); }
+.about-page .white-origin-canvas { background: rgba(232, 67, 26, .06); border-color: rgba(232, 67, 26, .28); }
 .about-page .white-origin-marker-left { color: #6B8C3E; }
 .about-page .white-origin-marker-right { color: #E8431A; }
 .about-page .white-origin-connection span { color: #E8431A; }
