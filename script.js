@@ -140,8 +140,9 @@ function applyLanguage(language) {
   document.querySelectorAll("[data-language]").forEach((button) => {
     button.setAttribute("aria-pressed", String(button.dataset.language === nextLanguage));
   });
-  window.dispatchEvent(new CustomEvent("seolbaek:language", { detail: { language: nextLanguage } }));
   translateAboutStatic(nextLanguage);
+  // 정적 번역을 먼저 적용한 뒤 제품·장바구니 같은 동적 영역도 다시 그립니다.
+  window.dispatchEvent(new CustomEvent("seolbaek:language", { detail: { language: nextLanguage } }));
 }
 
 document.querySelectorAll("[data-language]").forEach((button) => {
