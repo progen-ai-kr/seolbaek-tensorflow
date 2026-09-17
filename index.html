@@ -242,7 +242,7 @@
     }
     previous = now;
 
-    const strength = window.innerWidth < 720 ? 350 : 220;
+    const strength = window.innerWidth < 720 ? 400 : 220;
     const wave = Math.sin(elapsed * Math.PI * 2 / 10000);
     displacement.setAttribute('scale', (strength * wave).toFixed(2));
 
