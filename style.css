@@ -953,3 +953,17 @@ p, li, dd { font-size: clamp(.95rem, 1.2vw, 1.08rem); line-height: 1.75; }
 .about-page main > section[data-section="05"]::before { left: 20px !important; }
 .about-page main > section[data-section="05"] { border-top: 1px solid var(--about-divider); }
 .about-page main > section[data-section] + section[data-section] { border-top: 1px solid var(--about-divider); }
+
+/* 브랜드 소개 03: 모바일은 세로로, 넓은 화면은 글과 사진을 교차 배치합니다. */
+.about-page .story-step { display: grid; gap: 28px; max-width: none; margin: 0; padding: 32px 0 48px; border-left: 0; }
+.about-page .story-step-right { border-top: 0; }
+.story-step-copy { min-width: 0; }
+.story-step-copy > p:last-child { max-width: 480px; margin-top: 30px; color: var(--ink-soft); }
+.story-step-photo { min-width: 0; margin: 0; overflow: hidden; }
+.story-step-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
+@media (min-width: 720px) {
+  .about-page .story-step { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(32px, 5vw, 72px); padding-block: 48px; }
+  .about-page .story-step h2 { font-size: clamp(32px, 4vw, 56px); }
+  .story-step-right .story-step-photo { grid-column: 1; grid-row: 1; }
+  .story-step-right .story-step-copy { grid-column: 2; grid-row: 1; }
+}
